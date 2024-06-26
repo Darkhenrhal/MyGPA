@@ -32,6 +32,22 @@ class RegisterPage extends StatelessWidget {
 
             ),
           ),
+          Text(
+            'Let\'s you in',
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            'Let\'s you in',
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           TextField(
 
             // controller: _controller,

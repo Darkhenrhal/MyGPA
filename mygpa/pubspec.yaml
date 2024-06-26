@@ -79,6 +79,13 @@ flutter:
       fonts:
         - asset: fonts/PlaywriteMX.ttf
 
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat.ttf
+
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins.ttf
 
 #     - family: Trajan Pro
 #       fonts:
