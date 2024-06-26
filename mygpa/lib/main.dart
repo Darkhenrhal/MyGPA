@@ -1,5 +1,6 @@
 import 'package:mygpa/pages/Loading.dart';
 import 'package:flutter/material.dart';
+import 'package:mygpa/pages/setup.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(),
         //home:const HomePage());
-        home:const LoadingPage());
+        home:const SetupPage());
 
 
   }
