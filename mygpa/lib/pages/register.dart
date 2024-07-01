@@ -171,19 +171,19 @@ class RegisterPage extends StatelessWidget {
               _registerUser(context);
             },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.pressed)) {
+              backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                    (Set<WidgetState> states) {
+                  if (states.contains(WidgetState.pressed)) {
                     return const Color(0xff2b2b2b); // Color when pressed
                   }
                   return const Color(0xff2b2b2b); // Default color
                 },
               ),
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white), // Text color
-              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // Text color
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 const EdgeInsets.symmetric(horizontal: 45, vertical: 8),
               ),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),

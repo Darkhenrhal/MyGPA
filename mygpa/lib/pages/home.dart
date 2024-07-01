@@ -31,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController courseCreditController = TextEditingController();
   final TextEditingController courseSemesterController = TextEditingController();
   String? selectedGrade;
+  List<Course> courses=[];
   @override
   void initState() {
     super.initState();
@@ -49,7 +50,6 @@ class _HomePageState extends State<HomePage> {
         _courseWeightMap = {}; // Handle error state as needed
       });
     });
-
   }
 
   Future<double> _calculateCompletionPercentage() async {
@@ -81,6 +81,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _viewCourses() async{
+    List<Course> coursesList = await _dbHelper.getCourses();
+    try{
+      setState(() {
+        courses = coursesList;
+      });
+      for (Course course in courses){
+        print(course.title);
+      }
+    }catch(exception){
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        const SnackBar(content: Text('Error ocured in fetching courses, Please try again.')),
+      );
+      print('Error :$exception');
+    }
+
+  }
 
   Future<void> _addCourse() async {
     String courseTitle = courseTitleController.text.trim();
@@ -181,7 +198,11 @@ class _HomePageState extends State<HomePage> {
         defaultGradeWeights: existingUser.defaultGradeWeights,
       );
 
+
       await _dbHelper.updateUser(updatedUser);
+      setState(() {
+        _currentGPA = _dbHelper.getCurrentGPA();
+      });
 
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
         const SnackBar(content: Text('User details updated successfully')),
@@ -192,6 +213,59 @@ class _HomePageState extends State<HomePage> {
         const SnackBar(content: Text('User not found')),
       );
     }
+  }
+
+  Future<void> _deleteCourse(int id) async {
+    try {
+      await _dbHelper.deleteCourse(id);
+      setState(() {
+        courses.removeWhere((course) => course.id == id);
+      });
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        const SnackBar(content: Text('Course successfully deleted.')),
+      );
+      setState(() {
+        _currentGPA = _dbHelper.getCurrentGPA();
+        _updateUserDetails();
+        _totalCurrentCourseCredits = _dbHelper.getCurrentTotalCourseCredits();
+        _totalCourseCredits = _dbHelper.getTotalCourseCredits();
+        _completionPercentage = _calculateCompletionPercentage();
+      });
+    } catch (exception) {
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        const SnackBar(content: Text('Error in course deletion.')),
+      );
+      print('Error: $exception');
+    }
+  }
+
+
+  Future<void> _updateCourse(Course course) async{
+    String newTitle =course.title;
+    int newSemester = course.semester;
+    String newGrade = course.grade;
+    int newCredit=course.credit;
+    double newWeight=await _getWeight(course.grade!);
+
+
+
+    Course updatedCourse = Course(
+      title: newTitle,
+      semester: newSemester,
+      grade: newGrade,
+      credit: newCredit,
+      weight: newWeight,
+    );
+
+
+    await _dbHelper.updateCourse(updatedCourse);
+    setState(() {
+      initState();
+    });
+
+    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+      const SnackBar(content: Text('Course details updated successfully')),
+    );
   }
 
 
@@ -222,7 +296,7 @@ class _HomePageState extends State<HomePage> {
                       selectedGrade = newValue;
                     });
                   },),
-              if (showViewCoursesCard) _buildCourseList(),
+              if (showViewCoursesCard) _buildCourseList(context),
             ],
           ),
         ),
@@ -244,11 +318,12 @@ class _HomePageState extends State<HomePage> {
               showViewCoursesCard = false;
             });
           }),
-          _buildButton('View Courses', 1, () {
+          _buildButton('View Courses', 1, () async {
             setState(() {
               showAddCourseCard = false;
               showViewCoursesCard = true;
             });
+            await _viewCourses();
           }),
         ],
       ),
@@ -626,7 +701,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Drawer _buildDrawer() {
     return Drawer(
       child: ListView(
@@ -690,10 +764,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _buildCourseList(BuildContext context) {
+    Map<int, List<Course>> groupedCourses = {};
+    for (var course in courses) {
+      if (!groupedCourses.containsKey(course.semester)) {
+        groupedCourses[course.semester] = [];
+      }
+      groupedCourses[course.semester]!.add(course);
+    }
 
-  Widget _buildCourseList() {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left:10,right: 10,top: 0,bottom: 0),
       child: Column(
         children: <Widget>[
           const Text(
@@ -705,69 +786,102 @@ class _HomePageState extends State<HomePage> {
               fontFamily: 'Poppins',
             ),
           ),
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Semester',
-              style: TextStyle(
-                color: Color(0xff2b2b2b),
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'Poppins',
-              ),
-            ),
-          ),
-          _buildCourseCard(),
+          ...groupedCourses.entries.map((entry) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Semester ${entry.key}',
+                    style: const TextStyle(
+                      color: Color(0xff2b2b2b),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+                ...entry.value.map((course) => _buildCourseCard(context,course)).toList(),
+              ],
+            );
+          }).toList(),
         ],
       ),
     );
   }
 
-  Widget _buildCourseCard() {
+  Widget _buildCourseCard(BuildContext context,Course course) {
     return Container(
       width: 500,
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xff2b2b2b)),
+        border: Border.all(color: const Color(0xff2b2b2b),width: 2),
       ),
       child: Stack(
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Expanded(
+               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      'Title',
-                      style: TextStyle(
+                      '${course.title} ',
+                      style: const TextStyle(
                         color: Color(0xff2b2b2b),
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      'Credits',
-                      style: TextStyle(
-                        color: Color(0xff2b2b2b),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    Row(
+                      children:<Widget> [
+                        const Text(
+                          'Credits:',
+                          style: TextStyle(
+                            color: Color(0xff2b2b2b),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      SizedBox(width: 8,),
+                        Text(
+                          ' ${course.credit}',
+                          style: const TextStyle(
+                            color: Color(0xff2b2b2b),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Grade',
-                      style: TextStyle(
-                        color: Color(0xff2b2b2b),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children:<Widget> [
+                        const Text(
+                          'Grade:',
+                          style: TextStyle(
+                            color: Color(0xff2b2b2b),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(width: 8,),
+                        Text(
+                          ' ${course.grade}',
+                          style: const TextStyle(
+                            color: Color(0xff2b2b2b),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -785,8 +899,10 @@ class _HomePageState extends State<HomePage> {
                       width: 20,
                     ),
                     iconSize: 20,
-                    color: Colors.red,
-                    onPressed: () {
+                    color: Color(0xff2b2b2b),
+                    onPressed: (
+
+                        ) {
                       // Handle onPressed event here
                     },
                   ),
@@ -798,8 +914,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     iconSize: 20,
                     color: Colors.red,
-                    onPressed: () {
-                      // Handle onPressed event here
+                    onPressed: () async {
+                      await _confirmDeleteCourseDialog(context,course);
                     },
                   ),
                 ],
@@ -844,6 +960,115 @@ class _HomePageState extends State<HomePage> {
       }).toList(),
     );
   }
+
+  Future<void> _confirm
+
+
+  Future<void> _confirmDeleteCourseDialog(BuildContext context, Course course) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // Prevent dialog from closing on tap outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:const Text('Course Delete'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Are you sure to delete ${course.title}?',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff2b2b2b)
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return const Color(0xff34312D); // Color when pressed
+                  }
+                  return const Color(0xff34312D); // Default background color
+                }),
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  return Colors.white; // Text color
+                }),
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: const BorderSide(
+                      color: Color(0xff2b2b2b),
+                      width: 3,
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.red; // Color when pressed
+                  }
+                  return Colors.red; // Default background color
+                }),
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  return Colors.white; // Text color
+                }),
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: const BorderSide(
+                      color: Colors.red,
+                      width: 3,
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close the dialog
+                if (course.id != null) {
+                  await _deleteCourse(course.id!);
+                } else {
+                  // Handle the case where course.id is null, if needed
+                  print('Course ID is null');
+                }
+              },
+              child: const Text(
+                'Delete',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   TextField _buildTextField(String label, String hint,
       TextEditingController controllerName) {
