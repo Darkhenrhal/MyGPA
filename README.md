@@ -19,7 +19,7 @@ Welcome to Academic GPA Predictor, a web application designed to help university
 6. **User-Friendly Interface:** Enjoy a user-friendly interface designed to make the GPA calculation and prediction process simple and efficient. ❌
 
 
-**Getting Started:**
+##Getting Started
 
 To get started with NaviGuide, follow these simple steps:
 
@@ -33,19 +33,19 @@ To get started with NaviGuide, follow these simple steps:
    
 5. **Custom course weights:** Since the University/College uses different grade weights the user is allowed to change their Course grade weights using the app.
 
-**Contributing:**
+##Contributing:
 
 MyGPA is an open platform, and we welcome contributions from individuals and organizations interested in Further development. If you'd like to contribute to the platform by offering your expertise by suggesting improvements, please contact me at sineth21404@email.com.
 
-**Feedback:**
+##Feedback:
 
 We value your feedback and suggestions for improving MyGPA. If you have any ideas for new features or enhancements, or if you encounter any issues while using the platform, please don't hesitate to reach out to us.
 
-**Contact:**
+##Contact:
 
 For any inquiries or assistance, you can reach us at sineth21404@email.com.
 
-**Copyright Notice:**
+##Copyright Notice:
 
 Copying without permission is prohibited. please contact sineth21404@gmail.com for more information.
 
