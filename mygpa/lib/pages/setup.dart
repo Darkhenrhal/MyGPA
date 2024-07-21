@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mygpa/databasehelper.dart';
 import 'package:mygpa/user.dart';
-import 'package:mygpa/pages/home.dart';
 
 class SetupPage extends StatefulWidget {
-  const SetupPage({Key? key}) : super(key: key);
+  const SetupPage({super.key});
 
   @override
   _SetupPageState createState() => _SetupPageState();
@@ -54,7 +53,7 @@ class _SetupPageState extends State<SetupPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('User details updated successfully')),
       );
-      print("user updated successfully"+ updatedUser.totalSemesters.toString() + " and " +updatedUser.totalCourseCredits.toString());
+      print("user updated successfully${updatedUser.totalSemesters} and ${updatedUser.totalCourseCredits}");
 
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

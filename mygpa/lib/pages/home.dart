@@ -1,12 +1,9 @@
-import 'dart:ffi';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mygpa/pages/settings.dart';
 import 'package:mygpa/user.dart';
 import 'package:mygpa/course.dart';
 import 'package:mygpa/databasehelper.dart';
-import 'package:path/path.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,20 +18,25 @@ class _HomePageState extends State<HomePage> {
   late Future<double> _completionPercentage;
   late Future<double> _currentGPA;
   late Future<int> _totalCurrentCourseCredits;
+  late Future<int> _totalSemesters;
   late Future<int> _totalCourseCredits;
   Map<String, dynamic>? _courseWeightMap;
   int _selectedIndex = -1;
   bool showAddCourseCard = false;
   bool showViewCoursesCard = false;
   final TextEditingController courseTitleController = TextEditingController();
-  final TextEditingController courseGradeController = TextEditingController();
   final TextEditingController courseCreditController = TextEditingController();
   final TextEditingController courseSemesterController = TextEditingController();
+  final TextEditingController updatedCourseTitleController = TextEditingController();
+  final TextEditingController updatedCreditController = TextEditingController();
+  final TextEditingController updatedCemesterController = TextEditingController();
+  String? updatedSelectedGrade;
   String? selectedGrade;
   List<Course> courses=[];
   @override
   void initState() {
     super.initState();
+    _totalSemesters =_dbHelper.getTotalSemesters();
     _currentGPA = _dbHelper.getCurrentGPA();
     _totalCurrentCourseCredits = _dbHelper.getCurrentTotalCourseCredits();
     _totalCourseCredits = _dbHelper.getTotalCourseCredits();
@@ -52,6 +54,20 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  @override
+  void clear() {
+    courseTitleController.clear();
+    courseCreditController.clear();
+    courseSemesterController.clear();
+    updatedCourseTitleController.clear();
+    updatedCreditController.clear();
+    updatedCemesterController.clear();
+    setState(() {
+      selectedGrade = null;
+      updatedSelectedGrade=null;
+    });
+  }
+
   Future<double> _calculateCompletionPercentage() async {
     final totalCurrentCourseCredits = await _totalCurrentCourseCredits;
     final totalCourseCredits = await _totalCourseCredits;
@@ -64,13 +80,11 @@ class _HomePageState extends State<HomePage> {
       return 0.0;
     }
   }
-
   Future<double> _getWeight(String courseGrade) async {
     if (_courseWeightMap == null) {
       print('Weights map is null or not yet fetched');
       return 0.0;
     }
-
     dynamic correspondingWeight = _courseWeightMap![courseGrade];
     if (correspondingWeight != null) {
       print('Corresponding value for $courseGrade: $correspondingWeight');
@@ -112,7 +126,7 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
-    double courseWeight = await _getWeight(courseGrade!);
+    double courseWeight = await _getWeight(courseGrade);
 
     // Validate input
     if (courseTitle.isEmpty || courseGrade.isEmpty || courseCredit <= 0 || courseSemester <= 0) {
@@ -147,12 +161,7 @@ class _HomePageState extends State<HomePage> {
           const SnackBar(content: Text('Course added successfully.')),
         );
         // Clear text fields after adding the course
-        courseSemesterController.clear();
-        courseCreditController.clear();
-        courseTitleController.clear();
-        setState(() {
-          selectedGrade = null; // Reset the selected grade
-        });
+        clear();
       } else {
         ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
           const SnackBar(content: Text('Failed to add course. Please try again.')),
@@ -207,7 +216,7 @@ class _HomePageState extends State<HomePage> {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
         const SnackBar(content: Text('User details updated successfully')),
       );
-      print("user updated successfully ${newCurrentGpa}}");
+      print("user updated successfully $newCurrentGpa}");
     } else {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
         const SnackBar(content: Text('User not found')),
@@ -231,6 +240,7 @@ class _HomePageState extends State<HomePage> {
         _totalCourseCredits = _dbHelper.getTotalCourseCredits();
         _completionPercentage = _calculateCompletionPercentage();
       });
+      clear();
     } catch (exception) {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
         const SnackBar(content: Text('Error in course deletion.')),
@@ -240,16 +250,15 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  Future<void> _updateCourse(Course course) async{
-    String newTitle =course.title;
+  Future<void> _updateCourse(Course course) async {
+    String newTitle = course.title;
     int newSemester = course.semester;
     String newGrade = course.grade;
-    int newCredit=course.credit;
-    double newWeight=await _getWeight(course.grade!);
-
-
+    int newCredit = course.credit;
+    double newWeight = await _getWeight(course.grade);
 
     Course updatedCourse = Course(
+      id: course.id, // Ensure you have the id to update the correct course
       title: newTitle,
       semester: newSemester,
       grade: newGrade,
@@ -257,17 +266,33 @@ class _HomePageState extends State<HomePage> {
       weight: newWeight,
     );
 
+    print('Updating course with id: ${course.id}');
+    print('New Title: $newTitle');
+    print('New Semester: $newSemester');
+    print('New Grade: $newGrade');
+    print('New Credit: $newCredit');
+    print('New Weight: $newWeight');
 
-    await _dbHelper.updateCourse(updatedCourse);
-    setState(() {
-      initState();
-    });
-
-    ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-      const SnackBar(content: Text('Course details updated successfully')),
-    );
+    try {
+      await _dbHelper.updateCourse(updatedCourse);
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        const SnackBar(content: Text('Course details updated successfully')),
+      );
+      setState(() {
+        _currentGPA = _dbHelper.getCurrentGPA();
+        _updateUserDetails();
+        _totalCurrentCourseCredits = _dbHelper.getCurrentTotalCourseCredits();
+        _totalCourseCredits = _dbHelper.getTotalCourseCredits();
+        _completionPercentage = _calculateCompletionPercentage();
+      });
+      clear();
+    } catch (exception) {
+      print('Error: $exception');
+      ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
+        const SnackBar(content: Text('Error in updating course')),
+      );
+    }
   }
-
 
 
   @override
@@ -289,21 +314,22 @@ class _HomePageState extends State<HomePage> {
                     courseSemesterController,
                     courseCreditController,
                     courseTitleController,
-                    courseGradeController,
                     selectedGrade,
                       (newValue) {
                     setState(() {
                       selectedGrade = newValue;
                     });
                   },),
-              if (showViewCoursesCard) _buildCourseList(context),
+              if (showViewCoursesCard)
+                _buildCourseList(
+                    context
+                ),
             ],
           ),
         ),
       ),
     );
   }
-
 
   Widget _buildHomeButtons(BuildContext context) {
     return Padding(
@@ -372,7 +398,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 
   Widget _buildHomePage() {
     return Padding(
@@ -529,7 +554,7 @@ class _HomePageState extends State<HomePage> {
                                 // Fixed: Check for null and handle default case
                                 final percentage = snapshot.data ?? 0.0;
                                 return Text(
-                                  percentage.toStringAsFixed(2) + '%',
+                                  '${percentage.toStringAsFixed(2)}%',
                                   style: const TextStyle(
                                     color: Color(0xffCBCBCB),
                                     fontSize: 15,
@@ -596,12 +621,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Widget _buildAddCourse(
       TextEditingController courseSemesterController,
       TextEditingController courseCreditController,
       TextEditingController courseTitleController,
-      TextEditingController courseGradeController,
       String? selectedGrade,
       ValueChanged<String?> onGradeChanged,) {
     return Container(
@@ -744,7 +767,10 @@ class _HomePageState extends State<HomePage> {
 
             ),
             onTap: () {
-              // Handle item 1 tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
+              );
             },
           ),
           ListTile(
@@ -764,7 +790,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildCourseList(BuildContext context) {
+  Widget _buildCourseList(
+      BuildContext context,
+      ) {
     Map<int, List<Course>> groupedCourses = {};
     for (var course in courses) {
       if (!groupedCourses.containsKey(course.semester)) {
@@ -772,6 +800,8 @@ class _HomePageState extends State<HomePage> {
       }
       groupedCourses[course.semester]!.add(course);
     }
+
+    List<int> sortedSemesters = groupedCourses.keys.toList()..sort();
 
     return Container(
       padding: const EdgeInsets.only(left:10,right: 10,top: 0,bottom: 0),
@@ -786,14 +816,16 @@ class _HomePageState extends State<HomePage> {
               fontFamily: 'Poppins',
             ),
           ),
-          ...groupedCourses.entries.map((entry) {
+          // ...groupedCourses.entries.map((entry) {
+          ...sortedSemesters.map((semester) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Semester ${entry.key}',
+                    // 'Semester ${entry.key}',
+                    'Semester $semester',
                     style: const TextStyle(
                       color: Color(0xff2b2b2b),
                       fontSize: 18,
@@ -802,16 +834,26 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                ...entry.value.map((course) => _buildCourseCard(context,course)).toList(),
+                // ...entry.value.map((course) => _buildCourseCard(
+                //   context,
+                //   course,
+                // )),
+                ...groupedCourses[semester]!.map((course) => _buildCourseCard(
+                  context,
+                  course,
+                )),
               ],
             );
-          }).toList(),
+          }),
         ],
       ),
     );
   }
 
-  Widget _buildCourseCard(BuildContext context,Course course) {
+  Widget _buildCourseCard(
+      BuildContext context,
+      Course course,
+     ) {
     return Container(
       width: 500,
       margin: const EdgeInsets.all(10),
@@ -839,7 +881,7 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       children:<Widget> [
                         const Text(
@@ -850,7 +892,7 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                      SizedBox(width: 8,),
+                      const SizedBox(width: 8,),
                         Text(
                           ' ${course.credit}',
                           style: const TextStyle(
@@ -899,11 +941,10 @@ class _HomePageState extends State<HomePage> {
                       width: 20,
                     ),
                     iconSize: 20,
-                    color: Color(0xff2b2b2b),
-                    onPressed: (
-
-                        ) {
-                      // Handle onPressed event here
+                    color:const Color(0xff2b2b2b),
+                    onPressed: ()async {
+                     await _updateCourseDialog(context,course);
+                        // Handle onPressed event here
                     },
                   ),
                   IconButton(
@@ -961,7 +1002,184 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _confirm
+  Future<void> _updateCourseDialog(BuildContext context, Course course) async {
+    updatedCourseTitleController.text = course.title;
+    updatedCemesterController.text = course.semester.toString();
+    updatedCreditController.text = course.credit.toString();
+    updatedSelectedGrade = course.grade;
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Course Update'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  'Please enter course details for ${course.title}',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff2b2b2b),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                _buildTextField(
+                  'Course Title',
+                  'Enter Course Title',
+                  updatedCourseTitleController,
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: _buildTextField(
+                        'Course Credit',
+                        'Enter Credit',
+                        updatedCreditController,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: _buildTextField(
+                        'Course Semester',
+                        'Enter Semester',
+                        updatedCemesterController,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                _buildUpdatedDropDownMenu(
+                  label: 'Grade',
+                  hint: 'Select Grade',
+                  items: ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'E', 'F'],
+                  selectedItem: updatedSelectedGrade,
+                  onChanged: (newValue) {
+                    setState(() {
+                      updatedSelectedGrade = newValue;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return const Color(0xffE1E1E1);
+                  }
+                  return Colors.white;
+                }),
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  return Colors.white;
+                }),
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: const BorderSide(
+                      color: Color(0xff2b2b2b),
+                      width: 3,
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  color: Color(0xff2b2b2b),
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return const Color(0xff34312D);
+                  }
+                  return const Color(0xff2b2b2b);
+                }),
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  return Colors.white;
+                }),
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: const BorderSide(
+                      color: Color(0xff2b2b2b),
+                      width: 3,
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                course.title = updatedCourseTitleController.text;
+                course.semester = int.parse(updatedCemesterController.text);
+                course.credit = int.parse(updatedCreditController.text);
+                course.grade = updatedSelectedGrade!;
+                print(course.title);
+                print(course.semester);
+                print(course.credit);
+                print(course.grade);
+                await _updateCourse(course);
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Update',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildUpdatedDropDownMenu({
+    required String label,
+    required String hint,
+    required List<String> items,
+    required String? selectedItem,
+    required Function(String?) onChanged,
+  }) {
+    return DropdownButtonFormField<String>(
+      value: selectedItem,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        ),
+      ),
+      hint: Text(hint),
+      items: items.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+      onChanged: onChanged,
+    );
+  }
 
 
   Future<void> _confirmDeleteCourseDialog(BuildContext context, Course course) async {
@@ -1024,7 +1242,7 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(MaterialState.pressed)) {
+                  if (states.contains(WidgetState.pressed)) {
                     return Colors.red; // Color when pressed
                   }
                   return Colors.red; // Default background color

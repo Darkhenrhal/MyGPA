@@ -64,7 +64,7 @@ class RegisterPage extends StatelessWidget {
       int userId = await dbHelper.insertUser(newUser);
 
       if (userId != 0) {
-        print('User Registered: ' + newUser.name);
+        print('User Registered: ${newUser.name}');
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const SetupPage()),
         );
