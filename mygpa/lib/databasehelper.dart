@@ -2,7 +2,6 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'course.dart';
 import 'user.dart';
-import 'dart:convert';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -148,6 +147,33 @@ class DatabaseHelper {
       return result.first['currentGPA'] as double;
     }
     return 0.0;
+  }
+
+  Future<int> getTotalSemesters() async {
+    Database db = await database;
+    var result = await db.rawQuery('SELECT totalSemesters FROM users LIMIT 1');
+    if (result.isNotEmpty) {
+      return result.first['totalSemesters'] as int;
+    }
+    return 0;
+  }
+
+  Future<String?> getEmail() async {
+    Database db = await database;
+    var result = await db.rawQuery('SELECT email FROM users LIMIT 1');
+    if (result.isNotEmpty) {
+      return result.first['email'] as String;
+    }
+    return null;
+  }
+
+  Future<String?> getName() async {
+    Database db = await database;
+    var result = await db.rawQuery('SELECT name FROM users LIMIT 1');
+    if (result.isNotEmpty) {
+      return result.first['name'] as String;
+    }
+    return null;
   }
 
   Future<int> getTotalCourseCredits() async{
