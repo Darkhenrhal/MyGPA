@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mygpa/databasehelper.dart';
+import 'package:mygpa/pages/home.dart';
 import 'package:mygpa/user.dart';
 
 class SetupPage extends StatefulWidget {
@@ -54,7 +55,9 @@ class _SetupPageState extends State<SetupPage> {
         const SnackBar(content: Text('User details updated successfully')),
       );
       print("user updated successfully${updatedUser.totalSemesters} and ${updatedUser.totalCourseCredits}");
-
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('User not found')),
@@ -164,6 +167,7 @@ class _SetupPageState extends State<SetupPage> {
                 ElevatedButton(
                   onPressed: () async {
                     await _updateUserDetails();
+
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.resolveWith<Color>(

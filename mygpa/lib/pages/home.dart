@@ -658,7 +658,7 @@ class _HomePageState extends State<HomePage> {
           Row(
             children: <Widget>[
               Expanded(
-                child: _buildTextField(
+                child: _buildNumberField(
                   'Course Credit',
                   'Enter Credit',
                   courseCreditController,
@@ -666,7 +666,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(width: 4),
               Expanded(
-                child: _buildTextField(
+                child: _buildNumberField(
                   'Course Semester',
                   'Enter Semester',
                   courseSemesterController,
@@ -1035,7 +1035,7 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: _buildTextField(
+                      child: _buildNumberField(
                         'Course Credit',
                         'Enter Credit',
                         updatedCreditController,
@@ -1043,7 +1043,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(width: 4),
                     Expanded(
-                      child: _buildTextField(
+                      child: _buildNumberField(
                         'Course Semester',
                         'Enter Semester',
                         updatedCemesterController,
@@ -1291,6 +1291,32 @@ class _HomePageState extends State<HomePage> {
   TextField _buildTextField(String label, String hint,
       TextEditingController controllerName) {
     return TextField(
+
+      cursorColor: const Color(0xff2b2b2b),
+      controller: controllerName,
+      decoration: InputDecoration(
+        labelText: label,
+        fillColor: const Color(0xffE1E1E1),
+        hintText: hint,
+        labelStyle: _labelTextStyle,
+        floatingLabelStyle: _floatingLabelStyle,
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+              Radius.circular(10.0)), // Set border radius here
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          // Set border radius here
+          borderSide: BorderSide(color: Color(0xff2b2b2b)),
+        ),
+      ),
+    );
+  }
+
+  TextField _buildNumberField(String label, String hint,
+      TextEditingController controllerName) {
+    return TextField(
+      keyboardType: TextInputType.number,
       cursorColor: const Color(0xff2b2b2b),
       controller: controllerName,
       decoration: InputDecoration(

@@ -167,6 +167,15 @@ class DatabaseHelper {
     return null;
   }
 
+  Future<String?> getGPAMethod() async{
+    Database db=await database;
+    var result = await db.rawQuery('SELECT gpaMethod From users Limit 1');
+    if (result.isNotEmpty){
+      return result.first['gpaMethod'] as String;
+    }
+    return null;
+  }
+
   Future<String?> getName() async {
     Database db = await database;
     var result = await db.rawQuery('SELECT name FROM users LIMIT 1');

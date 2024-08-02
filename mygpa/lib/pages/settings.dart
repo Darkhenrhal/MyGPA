@@ -16,6 +16,7 @@ class _SettingsPageState extends State<SettingsPage> {
   final DatabaseHelper _dbHelper = DatabaseHelper();
   bool showProfileContainer = false;
   bool showGradingMethodContainer = false;
+  bool showChangeGradeMethod = false;
   Map<String, dynamic>? _courseWeightMap;
   late Future<int> _totalSemesters;
   late Future<int> _totalCourseCredits;
@@ -23,10 +24,10 @@ class _SettingsPageState extends State<SettingsPage> {
   late Future<String?> _name;
   late String name;
   late String email;
+  late String gpaMethod;
   late int totalCourseCredits;
   late int totalSemesters;
-  late bool defaultGrading;
-  late bool customGrading;
+  late Future<String?> _gpaMethod;
   late Future<double> _currentGPA;
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController userEmailController = TextEditingController();
@@ -50,6 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
     _totalSemesters = _dbHelper.getTotalSemesters();
     _totalCourseCredits = _dbHelper.getTotalCourseCredits();
     _currentGPA = _dbHelper.getCurrentGPA();
+    _gpaMethod = _dbHelper.getGPAMethod();
     _dbHelper.retrieveDefaultGradeWeights().then((value) {
       setState(() {
         _courseWeightMap = value;
@@ -79,13 +81,14 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> asignDetails() async {
     try {
       String? emailFromFuture = await _dbHelper.getEmail();
-      String? nameFromFuture=await _dbHelper.getName();
-      int? totalCourseCreditsFromFuture=await _dbHelper.getTotalCourseCredits();
-      int? totalSemestersFromFuture=await _dbHelper.getTotalSemesters();
-
+      String? nameFromFuture= await _dbHelper.getName();
+      int? totalCourseCreditsFromFuture= await _dbHelper.getTotalCourseCredits();
+      int? totalSemestersFromFuture= await _dbHelper.getTotalSemesters();
+      String? gpaMethodFromFuture = await _dbHelper.getGPAMethod();
       // Assign the value to a non-nullable String variable
       name = nameFromFuture ?? '';
       email = emailFromFuture ?? '';
+      gpaMethod = gpaMethodFromFuture ?? '';
       totalSemesters = totalSemestersFromFuture ?? 0;
       totalCourseCredits = totalCourseCreditsFromFuture ?? 0;
 
@@ -118,6 +121,8 @@ class _SettingsPageState extends State<SettingsPage> {
       int sumOfCurrentTotalCredits = await _dbHelper.getCurrentTotalCourseCredits();
       // Here add update methods for the grades
       Map<String, dynamic> newCustomGradeValue = existingUser.customGradeWeights;
+
+      if()
 
       User updatedUser = User(
         id: existingUser.id,
@@ -214,19 +219,40 @@ class _SettingsPageState extends State<SettingsPage> {
                   setState(() {
                     showProfileContainer = !showProfileContainer;
                     showGradingMethodContainer = false;
+                    showChangeGradeMethod = false;
                   });
                 },
               ),
-              if (showProfileContainer) ...[
+              if (showProfileContainer)
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child:  _buildProfileContainer(),
-
-                )
-              ],
+                  child: _buildProfileContainer(),
+                ),
               ListTile(
                 title: const Text(
-                  'Update Grading Method',
+                  'Choose Grading Method',
+                  style: TextStyle(
+                    color: Color(0xff2b2b2b),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                onTap: () {
+                  setState(() {
+                    showChangeGradeMethod = !showChangeGradeMethod;
+                    showProfileContainer = false;
+                    showGradingMethodContainer = false;
+                  });
+                },
+              ),
+              if (showChangeGradeMethod)
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: _buildChangeGradeMethod(),
+                ),
+              ListTile(
+                title: const Text(
+                  'Update Custom Grading Method',
                   style: TextStyle(
                     color: Color(0xff2b2b2b),
                     fontSize: 20,
@@ -236,16 +262,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () {
                   setState(() {
                     showGradingMethodContainer = !showGradingMethodContainer;
-                    showProfileContainer = false; // Hide profile container
+                    showProfileContainer = false;
+                    showChangeGradeMethod = false;
                   });
                 },
               ),
-              if (showGradingMethodContainer) ...[
+              if (showGradingMethodContainer)
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
-                  child:_buildGradingMethodContainer(),
-                )
-              ],
+                  child: _buildGradingMethodContainer(),
+                ),
             ],
           ),
         ),
@@ -273,9 +299,9 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 15),
           _buildTextField('Email', 'Enter Email', userEmailController),
           const SizedBox(height: 15),
-          _buildTextField('Total Semesters', 'Enter Total Semesters', userTotalSemesterController),
+          _buildNumberField('Total Semesters', 'Enter Total Semesters', userTotalSemesterController),
           const SizedBox(height: 15),
-          _buildTextField('Total Credits', 'Enter Total Credits', userTotalCreditController),
+          _buildNumberField('Total Credits', 'Enter Total Credits', userTotalCreditController),
           const SizedBox(height: 10),
           ElevatedButton(
             style: ButtonStyle(
@@ -303,7 +329,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             onPressed: () async {
               // Navigator.of(context).pop();
-              await _confirmUpdateCourseDialog(context);
+              await _confirmUpdateProfileDialog(context);
             },
             child: const Text(
               'Update Profile',
@@ -319,7 +345,93 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Future<void> _confirmUpdateCourseDialog(BuildContext context) async {
+  Widget _buildChangeGradeMethod() {
+     var buttonVal = (gpaMethod == 'default')
+        ? "Change to Custom"
+        : (gpaMethod == 'custom')
+        ? "Change to Default"
+        : "Default Text"; // Fallback value
+
+     var gMethod = (gpaMethod == 'default')
+     ? "Default"
+     : (gpaMethod == 'custom')
+     ? "Custom"
+     : "Default Text";
+
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xff2b2b2b), width: 3),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const Text(
+                'Current GPA method: ',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff2b2b2b),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                gMethod,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff2b2b2b),
+                ),
+              ),
+            ],
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.pressed)) {
+                  return const Color(0xff34312D); // Color when pressed
+                }
+                return const Color(0xff34312D); // Default background color
+              }),
+              foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                return Colors.white; // Text color
+              }),
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+              ),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: const BorderSide(
+                    color: Color(0xff2b2b2b),
+                    width: 3,
+                  ),
+                ),
+              ),
+            ),
+            onPressed: () async {
+              // Navigator.of(context).pop();
+              await _confirmUpdateGradeWeightsDialog(context);
+            },
+            child: Text(
+              buttonVal,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _confirmUpdateProfileDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // Prevent dialog from closing on tap outside
@@ -421,7 +533,107 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-
+  Future<void> _confirmUpdateGradeWeightsDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // Prevent dialog from closing on tap outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:const Text('Update Custom Grading Method'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Are you sure to update your Grade weights?',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff2b2b2b)
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return const Color(0xffE1E1E1);
+                  }
+                  return Colors.white;
+                }),
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  return Colors.white;
+                }),
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: const BorderSide(
+                      color: Color(0xff2b2b2b),
+                      width: 3,
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return const Color(0xff34312D);
+                  }
+                  return const Color(0xff2b2b2b);
+                }),
+                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                  return Colors.white;
+                }),
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                ),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    side: const BorderSide(
+                      color: Color(0xff2b2b2b),
+                      width: 3,
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close the dialog
+                //await _updateUserDetails();
+                //initState();
+              },
+              child: const Text(
+                'Update',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget _buildGradingMethodContainer() {
     if (_courseWeightMap == null) {
@@ -439,7 +651,47 @@ class _SettingsPageState extends State<SettingsPage> {
         children: <Widget>[
           for (var entry in _courseWeightMap!.entries)
             _buildTextFieldGrade(entry.key, 'Weight for ${entry.key}', entry.value.toString()),
+          const SizedBox(height:10),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.pressed)) {
+                  return const Color(0xff34312D); // Color when pressed
+                }
+                return const Color(0xff34312D); // Default background color
+              }),
+              foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
+                return Colors.white; // Text color
+              }),
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+              ),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                  side: const BorderSide(
+                    color: Color(0xff2b2b2b),
+                    width: 3,
+                  ),
+                ),
+              ),
+            ),
+            onPressed: () async {
+              // Navigator.of(context).pop();
+              await _confirmUpdateGradeWeightsDialog(context);
+            },
+            child: const Text(
+              'Update Grade Method',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+            ),
+          ),
+
         ],
+
       ),
     );
   }
@@ -467,6 +719,29 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  TextField _buildNumberField(String label, String hint, TextEditingController controller) {
+    return TextField(
+      keyboardType: TextInputType.number,
+      controller: controller,
+      cursorColor: const Color(0xff2b2b2b),
+      decoration: InputDecoration(
+        labelText: label,
+        fillColor: const Color(0xffE1E1E1),
+        hintText: hint,
+        labelStyle: _labelTextStyle,
+        floatingLabelStyle: _floatingLabelStyle,
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.0),
+          ),
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(color: Color(0xff2b2b2b)),
+        ),
+      ),
+    );
+  }
 
   Column _buildTextFieldGrade(String label, String hint, String gradeVal) {
     TextEditingController controller = TextEditingController(text: gradeVal);
@@ -475,12 +750,14 @@ class _SettingsPageState extends State<SettingsPage> {
       children: <Widget>[
         const SizedBox(height: 10),
         TextField(
+          keyboardType: TextInputType.number,
           cursorColor: const Color(0xff2b2b2b),
           controller: controller,
           decoration: InputDecoration(
             labelText: label,
             fillColor: const Color(0xffE1E1E1),
             hintText: hint,
+
             labelStyle: _labelTextStyle,
             floatingLabelStyle: _floatingLabelStyle,
             border: const OutlineInputBorder(
