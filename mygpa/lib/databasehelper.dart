@@ -34,7 +34,6 @@ class DatabaseHelper {
         title TEXT,
         credit INTEGER NOT NULL DEFAULT 0,
         grade TEXT, 
-        weight REAL NOT NULL DEFAULT 0,
         semester INTEGER)
       '''
     );
@@ -99,18 +98,52 @@ class DatabaseHelper {
     return 0;
   }
 
-  Future<double> calculateSumOfMultiplyOfWeightCredit() async {
+  Future<double> getCurrentGPA() async {
     Database db = await database;
-    List<Map<String, dynamic>> maps = await db.query('courses');
+    User? userFromFuture=await getUser();
+    User? user= userFromFuture;
+    List<Course> coursesList = await getCourses();
+    String? gpaMethodFromFuture= await getGPAMethod();
+    String gpaMethod  = gpaMethodFromFuture ?? '';
     double sumOfMultiplyOfWeightCredit = 0.0;
+    int sumOfCurrentTotalCredits = await getCurrentTotalCourseCredits();
 
-    for (Map<String, dynamic> map in maps) {
-      Course course = Course.fromMap(map);
-      double multiplyOfWeightCredit = course.weight * course.credit;
-      sumOfMultiplyOfWeightCredit += multiplyOfWeightCredit;
+    if(gpaMethod=="default"){
+      Map<String,dynamic> courseWeightMap=user!.defaultGradeWeights;
+      for (Course course in coursesList){
+        for(MapEntry<String,dynamic> item in courseWeightMap.entries){
+          if(item.key==course.grade){
+            print('Key: ${item.key}, Value: ${item.value}');
+            double multiplyOfWeightCredit =item.value  * course.credit;
+            sumOfMultiplyOfWeightCredit+=multiplyOfWeightCredit;
+          }
+        }
+      }
+      print('sum of multiply $sumOfMultiplyOfWeightCredit and sum of total credits $sumOfCurrentTotalCredits');
+      double newCurrentGpa = sumOfCurrentTotalCredits > 0
+          ? sumOfMultiplyOfWeightCredit / sumOfCurrentTotalCredits
+          : 0.0;
+      print("new GPA is $newCurrentGpa");
+      return newCurrentGpa;
+    }else if(gpaMethod=="custom"){
+      Map<String,dynamic> courseWeightMap=user!.customGradeWeights;
+      for (Course course in coursesList){
+        for(MapEntry<String,dynamic> item in courseWeightMap.entries){
+          if(item.key==course.grade){
+            print('Key: ${item.key}, Value: ${item.value}');
+            double multiplyOfWeightCredit =item.value  * course.credit;
+            sumOfMultiplyOfWeightCredit+=multiplyOfWeightCredit;
+          }
+        }
+      }
+      print('sum of multiply $sumOfMultiplyOfWeightCredit and sum of total credits $sumOfCurrentTotalCredits');
+      double newCurrentGpa = sumOfCurrentTotalCredits > 0
+          ? sumOfMultiplyOfWeightCredit / sumOfCurrentTotalCredits
+          : 0.0;
+      print("new GPA is $newCurrentGpa");
+      return newCurrentGpa;
     }
-
-    return sumOfMultiplyOfWeightCredit;
+    return 0;
   }
 
 
@@ -130,6 +163,21 @@ class DatabaseHelper {
     });
   }
 
+  Future<User?> getUser() async {
+    Database db = await database;
+    List<Map<String, dynamic>> maps = await db.rawQuery('SELECT * FROM users LIMIT 1');
+
+    if (maps.isNotEmpty) {
+      User user = User.fromMap(maps.first);
+      print(user.name);
+      return user;
+    } else {
+      print("User not found");
+      return null;
+    }
+  }
+
+
   Future<int> updateUser(User user) async {
     Database db = await database;
     return await db.update('users', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
@@ -138,15 +186,6 @@ class DatabaseHelper {
   Future<int> deleteUser(int id) async {
     Database db = await database;
     return await db.delete('users', where: 'id = ?', whereArgs: [id]);
-  }
-
-  Future<double> getCurrentGPA() async {
-    Database db = await database;
-    var result = await db.rawQuery('SELECT currentGPA FROM users LIMIT 1');
-    if (result.isNotEmpty) {
-      return result.first['currentGPA'] as double;
-    }
-    return 0.0;
   }
 
   Future<int> getTotalSemesters() async {

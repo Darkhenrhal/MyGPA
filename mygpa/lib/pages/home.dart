@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mygpa/pages/aboutapp.dart';
 import 'package:mygpa/pages/settings.dart';
 import 'package:mygpa/user.dart';
 import 'package:mygpa/course.dart';
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   late Future<int> _totalCurrentCourseCredits;
   late Future<int> _totalSemesters;
   late Future<int> _totalCourseCredits;
+  late Future<String?> _gpaMethod;
   Map<String, dynamic>? _courseWeightMap;
   int _selectedIndex = -1;
   bool showAddCourseCard = false;
@@ -52,7 +54,10 @@ class _HomePageState extends State<HomePage> {
         _courseWeightMap = {}; // Handle error state as needed
       });
     });
+
   }
+
+
 
   @override
   void clear() {
@@ -126,8 +131,6 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
-    double courseWeight = await _getWeight(courseGrade);
-
     // Validate input
     if (courseTitle.isEmpty || courseGrade.isEmpty || courseCredit <= 0 || courseSemester <= 0) {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
@@ -142,7 +145,6 @@ class _HomePageState extends State<HomePage> {
       grade: courseGrade,
       credit: courseCredit,
       semester: courseSemester,
-      weight: courseWeight,
     );
 
     try {
@@ -188,12 +190,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (existingUser != null) {
-      double sumOfMultiplyOfWeightCredit = await _dbHelper.calculateSumOfMultiplyOfWeightCredit();
-      int sumOfCurrentTotalCredits = await _dbHelper.getCurrentTotalCourseCredits();
-
-      double newCurrentGpa = sumOfCurrentTotalCredits > 0
-          ? sumOfMultiplyOfWeightCredit / sumOfCurrentTotalCredits
-          : 0.0;
+      double newCurrentGpa = await _dbHelper.getCurrentGPA();
 
       User updatedUser = User(
         id: existingUser.id,
@@ -249,7 +246,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   Future<void> _updateCourse(Course course) async {
     String newTitle = course.title;
     int newSemester = course.semester;
@@ -263,7 +259,7 @@ class _HomePageState extends State<HomePage> {
       semester: newSemester,
       grade: newGrade,
       credit: newCredit,
-      weight: newWeight,
+
     );
 
     print('Updating course with id: ${course.id}');
@@ -293,7 +289,6 @@ class _HomePageState extends State<HomePage> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -782,7 +777,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             onTap: () {
-              // Handle item 2 tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=> const AboutApp()),
+              );
             },
           ),
         ],
@@ -1181,7 +1179,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Future<void> _confirmDeleteCourseDialog(BuildContext context, Course course) async {
     return showDialog<void>(
       context: context,
@@ -1286,7 +1283,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
 
   TextField _buildTextField(String label, String hint,
       TextEditingController controllerName) {

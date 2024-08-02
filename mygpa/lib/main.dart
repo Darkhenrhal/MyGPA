@@ -13,13 +13,15 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(),
-        //home:const HomePage());
-        //home:const SetupPage());
-        //home:const RegisterPage());
-          home: const SplashScreen());
+        //home:const HomePage(),
+        //home:const SetupPage(),
+        //home:const RegisterPage(),
+        home: const SplashScreen(),
+        //home: const DonePage(),
+        //home: const AboutApp(),
 
-
-    }
+    );
+  }
 
 }
 
