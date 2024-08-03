@@ -57,17 +57,7 @@ class _AboutAppState extends State<AboutApp> {
               color: const Color(0xffffffff),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/trnmenu.svg',
-                height: 18,
-                width: 18,
-              ),
-              iconSize: 20,
-              onPressed: () {
-                _scaffoldKey.currentState?.openEndDrawer();
-              },
-            ),
+
           ),
         ),
       ],

@@ -211,12 +211,13 @@ class _HomePageState extends State<HomePage> {
       });
 
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-        const SnackBar(content: Text('User details updated successfully')),
+        const SnackBar(content: Text('Details updated!',textAlign: TextAlign.center,)),
+
       );
       print("user updated successfully $newCurrentGpa}");
     } else {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-        const SnackBar(content: Text('User not found')),
+        const SnackBar(content: Text('User not found!',textAlign: TextAlign.center,)),
       );
     }
   }

@@ -8,7 +8,6 @@ import 'package:mygpa/pages/home.dart';
 import 'package:mygpa/user.dart';
 
 import '../course.dart';
-import 'buymeacoffee.dart';
 
 
 class SettingsPage extends StatefulWidget {
@@ -254,10 +253,10 @@ class _SettingsPageState extends State<SettingsPage> {
               );
             },
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: BuyMeACoffeeButton(), // Add the button here
-          ),
+          // const Padding(
+          //   padding: EdgeInsets.all(16.0),
+          //   child: BuyMeACoffeeButton(), // Add the button here
+          // ),
         ],
       ),
     );
@@ -749,7 +748,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }else{
       if (_scaffoldKey.currentContext != null) {
         ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-          const SnackBar(content: Text('User not found',textAlign: TextAlign.center,)),
+          const SnackBar(content: Text('User not found!',textAlign: TextAlign.center,)),
         );
       }
     }

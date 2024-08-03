@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:lottie/lottie.dart';
+import "package:lottie/lottie.dart";
 import 'package:mygpa/pages/home.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 
