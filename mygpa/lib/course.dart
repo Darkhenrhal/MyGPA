@@ -3,10 +3,9 @@ class Course{
   String title;
   int credit;
   String grade;
-  double weight;
   int semester;
 
-  Course({this.id,required this.semester,required this.title,required this.credit, required this.grade, required this.weight});
+  Course({this.id,required this.semester,required this.title,required this.credit, required this.grade});
 
   Map<String, dynamic> toMap(){
     return{
@@ -14,7 +13,6 @@ class Course{
       'title':title,
       'credit':credit,
       'grade':grade,
-      'weight':weight,
       'semester':semester,
     };
   }
@@ -26,7 +24,6 @@ class Course{
         title: map['title'],
         credit: map['credit'],
         grade: map['grade'],
-        weight: map['weight']
     );
   }
 

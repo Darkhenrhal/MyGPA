@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mygpa/pages/home.dart';
+import 'package:mygpa/pages/register.dart';
+import 'package:mygpa/pages/setup.dart';
 import 'package:mygpa/pages/splashscreen.dart';
 
 void main() {
@@ -12,14 +15,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
-        //home:const HomePage());
-        //home:const SetupPage());
-        //home:const RegisterPage());
-          home: const SplashScreen());
+        //theme: ThemeData(),
+        //home: HomePage(),
+        //home: SetupPage(),
+        home: RegisterPage(),
+        //home: const SplashScreen(),
+        //home: const DonePage(),
+        //home: const AboutApp(),
 
-
-    }
+    );
+  }
 
 }
 

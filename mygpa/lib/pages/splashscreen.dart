@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState(){
     super.initState();
 
-    _checkUserRegistered();
+    //_checkUserRegistered();
   }
 
   Future<void> _checkUserRegistered()async{
@@ -52,13 +52,13 @@ class _SplashScreenState extends State<SplashScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Lottie.asset('assets/animation/loadanimation.json',height: 150,width: 150),
+            child: Lottie.asset('assets/animation/loadanimation.json',height: 200,width: 200),
           ),
         ],
       ),
       nextScreen:  RegisterPage(),
-      duration: 2500,
-      backgroundColor: const Color(0xff2b2b2b),
+      duration: 25000,
+      backgroundColor: const Color(0xfffcffff),
       splashIconSize: 200,
     );
   }

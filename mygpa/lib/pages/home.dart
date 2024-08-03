@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mygpa/pages/aboutapp.dart';
 import 'package:mygpa/pages/settings.dart';
 import 'package:mygpa/user.dart';
 import 'package:mygpa/course.dart';
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   late Future<int> _totalCurrentCourseCredits;
   late Future<int> _totalSemesters;
   late Future<int> _totalCourseCredits;
+  late Future<String?> _gpaMethod;
   Map<String, dynamic>? _courseWeightMap;
   int _selectedIndex = -1;
   bool showAddCourseCard = false;
@@ -52,7 +54,10 @@ class _HomePageState extends State<HomePage> {
         _courseWeightMap = {}; // Handle error state as needed
       });
     });
+
   }
+
+
 
   @override
   void clear() {
@@ -126,8 +131,6 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
-    double courseWeight = await _getWeight(courseGrade);
-
     // Validate input
     if (courseTitle.isEmpty || courseGrade.isEmpty || courseCredit <= 0 || courseSemester <= 0) {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
@@ -142,7 +145,6 @@ class _HomePageState extends State<HomePage> {
       grade: courseGrade,
       credit: courseCredit,
       semester: courseSemester,
-      weight: courseWeight,
     );
 
     try {
@@ -188,12 +190,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (existingUser != null) {
-      double sumOfMultiplyOfWeightCredit = await _dbHelper.calculateSumOfMultiplyOfWeightCredit();
-      int sumOfCurrentTotalCredits = await _dbHelper.getCurrentTotalCourseCredits();
-
-      double newCurrentGpa = sumOfCurrentTotalCredits > 0
-          ? sumOfMultiplyOfWeightCredit / sumOfCurrentTotalCredits
-          : 0.0;
+      double newCurrentGpa = await _dbHelper.getCurrentGPA();
 
       User updatedUser = User(
         id: existingUser.id,
@@ -214,12 +211,13 @@ class _HomePageState extends State<HomePage> {
       });
 
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-        const SnackBar(content: Text('User details updated successfully')),
+        const SnackBar(content: Text('Details updated!',textAlign: TextAlign.center,)),
+
       );
       print("user updated successfully $newCurrentGpa}");
     } else {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-        const SnackBar(content: Text('User not found')),
+        const SnackBar(content: Text('User not found!',textAlign: TextAlign.center,)),
       );
     }
   }
@@ -249,7 +247,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   Future<void> _updateCourse(Course course) async {
     String newTitle = course.title;
     int newSemester = course.semester;
@@ -263,7 +260,7 @@ class _HomePageState extends State<HomePage> {
       semester: newSemester,
       grade: newGrade,
       credit: newCredit,
-      weight: newWeight,
+
     );
 
     print('Updating course with id: ${course.id}');
@@ -293,7 +290,6 @@ class _HomePageState extends State<HomePage> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -658,7 +654,7 @@ class _HomePageState extends State<HomePage> {
           Row(
             children: <Widget>[
               Expanded(
-                child: _buildTextField(
+                child: _buildNumberField(
                   'Course Credit',
                   'Enter Credit',
                   courseCreditController,
@@ -666,7 +662,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(width: 4),
               Expanded(
-                child: _buildTextField(
+                child: _buildNumberField(
                   'Course Semester',
                   'Enter Semester',
                   courseSemesterController,
@@ -782,7 +778,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             onTap: () {
-              // Handle item 2 tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context)=> const AboutApp()),
+              );
             },
           ),
         ],
@@ -1035,7 +1034,7 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   children: <Widget>[
                     Expanded(
-                      child: _buildTextField(
+                      child: _buildNumberField(
                         'Course Credit',
                         'Enter Credit',
                         updatedCreditController,
@@ -1043,7 +1042,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(width: 4),
                     Expanded(
-                      child: _buildTextField(
+                      child: _buildNumberField(
                         'Course Semester',
                         'Enter Semester',
                         updatedCemesterController,
@@ -1181,7 +1180,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   Future<void> _confirmDeleteCourseDialog(BuildContext context, Course course) async {
     return showDialog<void>(
       context: context,
@@ -1287,10 +1285,35 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   TextField _buildTextField(String label, String hint,
       TextEditingController controllerName) {
     return TextField(
+
+      cursorColor: const Color(0xff2b2b2b),
+      controller: controllerName,
+      decoration: InputDecoration(
+        labelText: label,
+        fillColor: const Color(0xffE1E1E1),
+        hintText: hint,
+        labelStyle: _labelTextStyle,
+        floatingLabelStyle: _floatingLabelStyle,
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+              Radius.circular(10.0)), // Set border radius here
+        ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          // Set border radius here
+          borderSide: BorderSide(color: Color(0xff2b2b2b)),
+        ),
+      ),
+    );
+  }
+
+  TextField _buildNumberField(String label, String hint,
+      TextEditingController controllerName) {
+    return TextField(
+      keyboardType: TextInputType.number,
       cursorColor: const Color(0xff2b2b2b),
       controller: controllerName,
       decoration: InputDecoration(

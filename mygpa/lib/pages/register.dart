@@ -113,6 +113,7 @@ class RegisterPage extends StatelessWidget {
               fontSize: 35,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
+              color: Color(0xff332e31) //Text color
             ),
           ),
           const SizedBox(height: 30),
