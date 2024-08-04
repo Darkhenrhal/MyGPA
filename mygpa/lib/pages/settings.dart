@@ -101,6 +101,8 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
       ),
+      backgroundColor: const Color(0xffecebf2),
+
     );
   }
 
@@ -148,13 +150,13 @@ class _SettingsPageState extends State<SettingsPage> {
       title: const Text(
         'Settings',
         style: TextStyle(
-          color: Color(0xff2b2b2b),
+          color: Color(0xff332e31),
           fontSize: 25,
           fontWeight: FontWeight.w600,
           fontFamily: 'Poppins',
         ),
       ),
-      backgroundColor: const Color(0xffffffff),
+      backgroundColor: const Color(0xffecebf2),
       centerTitle: false,
       elevation: 0,
       actions: [
@@ -169,7 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
             margin: const EdgeInsets.all(10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: const Color(0xffffffff),
+              color: const Color(0xffecebf2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: IconButton(
@@ -212,7 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: const Text(
                     'MyGPA',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xffecebf2),
                       fontSize: 30,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -225,7 +227,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             title: const Text('Home',
               style: TextStyle(
-                color: Color(0xff2b2b2b),
+                color: Color(0xff332e31),
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
@@ -241,7 +243,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ListTile(
             title: const Text('About App',
               style: TextStyle(
-                color: Color(0xff2b2b2b),
+                color: Color(0xff332e31),
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
@@ -287,7 +289,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: const Text(
                   'Update Profile',
                   style: TextStyle(
-                    color: Color(0xff2b2b2b),
+                    color: Color(0xff332e31),
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
@@ -309,7 +311,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: const Text(
                   'Choose Grading Method',
                   style: TextStyle(
-                    color: Color(0xff2b2b2b),
+                    color: Color(0xff332e31),
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
@@ -331,7 +333,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: const Text(
                   'Update Custom Grading Method',
                   style: TextStyle(
-                    color: Color(0xff2b2b2b),
+                    color: Color(0xff332e31),
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
                   ),
@@ -366,8 +368,9 @@ class _SettingsPageState extends State<SettingsPage> {
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xff2b2b2b), width: 3),
+        //border: Border.all(color: const Color(0xff2b2b2b), width: 3),
         borderRadius: BorderRadius.circular(10),
+        color: const Color(0xffffffff),
       ),
       child: Column(
         children: <Widget>[
@@ -382,25 +385,21 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 10),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return const Color(0xff34312D); // Color when pressed
-                }
-                return const Color(0xff34312D); // Default background color
-              }),
-              foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                return Colors.white; // Text color
-              }),
+              backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                    (Set<WidgetState> states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return const Color(0xff693ae0); // Color when pressed
+                  }
+                  return const Color(0xff8970ce); // Default color
+                },
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                const EdgeInsets.symmetric(horizontal: 109, vertical: 10),
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  side: const BorderSide(
-                    color: Color(0xff2b2b2b),
-                    width: 3,
-                  ),
                 ),
               ),
             ),
@@ -447,8 +446,9 @@ class _SettingsPageState extends State<SettingsPage> {
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xff2b2b2b), width: 3),
+        //border: Border.all(color: const Color(0xff2b2b2b), width: 3),
         borderRadius: BorderRadius.circular(10),
+        color: Color(0xffffffff)
       ),
       child: Column(
         children: [
@@ -473,27 +473,24 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ],
           ),
+          SizedBox(height: 6,),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return const Color(0xff34312D); // Color when pressed
-                }
-                return const Color(0xff34312D); // Default background color
-              }),
-              foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                return Colors.white; // Text color
-              }),
+              backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                    (Set<WidgetState> states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return const Color(0xff693ae0); // Color when pressed
+                  }
+                  return const Color(0xff8970ce); // Default color
+                },
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  side: const BorderSide(
-                    color: Color(0xff2b2b2b),
-                    width: 3,
-                  ),
                 ),
               ),
             ),
@@ -528,9 +525,9 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Text('Are you sure to change your Grading method?',
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xff2b2b2b)
+                      color: Color(0xff332e31)
                   ),
                 ),
               ],
@@ -541,7 +538,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
                   if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xffE1E1E1);
+                    return const Color(0xffecebf2);
                   }
                   return Colors.white;
                 }),
@@ -549,13 +546,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   return Colors.white;
                 }),
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
-                      color: Color(0xff2b2b2b),
+                      color: Color(0xff8970ce),
                       width: 3,
                     ),
                   ),
@@ -570,31 +567,27 @@ class _SettingsPageState extends State<SettingsPage> {
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
                   fontSize: 18,
-                  color: Colors.black,
+                  color: Color(0xff8970ce),
                 ),
               ),
             ),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xff34312D);
-                  }
-                  return const Color(0xff2b2b2b);
-                }),
-                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  return Colors.white;
-                }),
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return const Color(0xff693ae0); // Color when pressed
+                    }
+                    return const Color(0xff8970ce); // Default color
+                  },
+                ),
+                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Color(0xff2b2b2b),
-                      width: 3,
-                    ),
                   ),
                 ),
               ),
@@ -842,9 +835,9 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Text('Are you sure to update your profile?',
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xff2b2b2b)
+                      color: Color(0xff332e31)
                   ),
                 ),
               ],
@@ -855,7 +848,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
                   if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xffE1E1E1);
+                    return const Color(0xffecebf2);
                   }
                   return Colors.white;
                 }),
@@ -863,13 +856,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   return Colors.white;
                 }),
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
-                      color: Color(0xff2b2b2b),
+                      color: Color(0xff8970ce),
                       width: 3,
                     ),
                   ),
@@ -884,31 +877,27 @@ class _SettingsPageState extends State<SettingsPage> {
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
                   fontSize: 18,
-                  color: Colors.black,
+                  color: Color(0xff8970ce),
                 ),
               ),
             ),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xff34312D);
-                  }
-                  return const Color(0xff2b2b2b);
-                }),
-                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  return Colors.white;
-                }),
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return const Color(0xff693ae0); // Color when pressed
+                    }
+                    return const Color(0xff8970ce); // Default color
+                  },
+                ),
+                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Color(0xff2b2b2b),
-                      width: 3,
-                    ),
                   ),
                 ),
               ),
@@ -929,7 +918,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -948,7 +937,8 @@ class _SettingsPageState extends State<SettingsPage> {
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xff2b2b2b), width: 3),
+        //border: Border.all(color: const Color(0xff2b2b2b), width: 3),
+        color: const Color(0xffffffff),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -958,25 +948,21 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 10),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return const Color(0xff34312D); // Color when pressed
-                }
-                return const Color(0xff34312D); // Default background color
-              }),
-              foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                return Colors.white; // Text color
-              }),
+              backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                    (Set<WidgetState> states) {
+                  if (states.contains(WidgetState.pressed)) {
+                    return const Color(0xff693ae0); // Color when pressed
+                  }
+                  return const Color(0xff8970ce); // Default color
+                },
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                const EdgeInsets.symmetric(horizontal: 68, vertical: 10),
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
-                  side: const BorderSide(
-                    color: Color(0xff2b2b2b),
-                    width: 3,
-                  ),
                 ),
               ),
             ),
@@ -1010,9 +996,9 @@ class _SettingsPageState extends State<SettingsPage> {
               children: <Widget>[
                 Text('Are you sure to update your Grade weights?',
                   style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xff2b2b2b)
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xff332e31),
                   ),
                 ),
               ],
@@ -1023,7 +1009,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
                   if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xffE1E1E1);
+                    return const Color(0xffecebf2);
                   }
                   return Colors.white;
                 }),
@@ -1031,13 +1017,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   return Colors.white;
                 }),
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
-                      color: Color(0xff2b2b2b),
+                      color: Color(0xff8970ce),
                       width: 3,
                     ),
                   ),
@@ -1052,31 +1038,27 @@ class _SettingsPageState extends State<SettingsPage> {
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
                   fontSize: 18,
-                  color: Colors.black,
+                  color: Color(0xff8970ce),
                 ),
               ),
             ),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xff34312D);
-                  }
-                  return const Color(0xff2b2b2b);
-                }),
-                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  return Colors.white;
-                }),
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return const Color(0xff693ae0); // Color when pressed
+                    }
+                    return const Color(0xff8970ce); // Default color
+                  },
+                ),
+                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Color(0xff2b2b2b),
-                      width: 3,
-                    ),
                   ),
                 ),
               ),
@@ -1106,7 +1088,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -1132,18 +1114,23 @@ class _SettingsPageState extends State<SettingsPage> {
           controller: gradeValueController,
           decoration: InputDecoration(
             labelText: label,
-            fillColor: const Color(0xffE1E1E1),
+            fillColor: const Color(0xfffcffff),
             hintText: hint,
             labelStyle: _labelTextStyle,
             floatingLabelStyle: _floatingLabelStyle,
             border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderSide: BorderSide(
+                color: Color(0xff693ae0),
+                width: 3.0, // Thicker border when not focused
               ),
             ),
             focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              borderSide: BorderSide(color: Color(0xff2b2b2b)),
+              borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
+              borderSide: BorderSide(
+                color: Color(0xff693ae0),
+                width: 2.0, // Thinner border when focused
+              ),
             ),
           ),
           onChanged: (text) {
@@ -1174,18 +1161,23 @@ class _SettingsPageState extends State<SettingsPage> {
       cursorColor: const Color(0xff2b2b2b),
       decoration: InputDecoration(
         labelText: label,
-        fillColor: const Color(0xffE1E1E1),
+        fillColor: const Color(0xfffcffff),
         hintText: hint,
         labelStyle: _labelTextStyle,
         floatingLabelStyle: _floatingLabelStyle,
         border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+            color: Color(0xff693ae0),
+            width: 3.0, // Thicker border when not focused
           ),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(color: Color(0xff2b2b2b)),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
+          borderSide: BorderSide(
+            color: Color(0xff693ae0),
+            width: 2.0, // Thinner border when focused
+          ),
         ),
       ),
     );
@@ -1198,34 +1190,39 @@ class _SettingsPageState extends State<SettingsPage> {
       cursorColor: const Color(0xff2b2b2b),
       decoration: InputDecoration(
         labelText: label,
-        fillColor: const Color(0xffE1E1E1),
+        fillColor: const Color(0xfffcffff),
         hintText: hint,
         labelStyle: _labelTextStyle,
         floatingLabelStyle: _floatingLabelStyle,
         border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+            color: Color(0xff693ae0),
+            width: 3.0, // Thicker border when not focused
           ),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(color: Color(0xff2b2b2b)),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
+          borderSide: BorderSide(
+            color: Color(0xff693ae0),
+            width: 2.0, // Thinner border when focused
+          ),
         ),
       ),
     );
   }
 
   static const TextStyle _labelTextStyle = TextStyle(
-    color: Color(0xff2b2b2b),
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.w600,
-    fontSize: 15,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.w600,
+      color: Color(0xff332e31)
   );
 
   static const TextStyle _floatingLabelStyle = TextStyle(
-    color: Color(0xff2b2b2b), // Set label color when focused
+    color: Color(0xff332e31), // Set label color when focused
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w600,
+    fontSize: 23,
   );
 
   static const TextStyle _buttonTextStyle = TextStyle(

@@ -324,6 +324,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+      backgroundColor: const Color(0xffecebf2),
     );
   }
 
@@ -364,23 +365,22 @@ class _HomePageState extends State<HomePage> {
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
           if (states.contains(WidgetState.pressed)) {
-            return const Color(0xff34312D); // Color when pressed
+            return const Color(0xff8970ce); // Color when pressed
           }
-          return isSelected ? const Color(0xff34312D) : Colors
-              .white; // Selected and default colors
+          return isSelected ? const Color(0xff8970ce) : Color(0xffecebf2); // Selected and default colors
         }),
         foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-          return isSelected ? Colors.white : const Color(
-              0xff2b2b2b); // Text color based on selection
+          return isSelected ? Color(0xffecebf2) : const Color(
+              0xff8970ce); // Text color based on selection
         }),
         padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-          const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+          const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         ),
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
             side: const BorderSide(
-              color: Color(0xff2b2b2b), width: 3,), // Black border
+              color: Color(0xff8970ce), width: 3,), // Black border
           ),
         ),
       ),
@@ -418,7 +418,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xff2b2b2b).withOpacity(0.5),
+                    color: const Color(0xff332e31).withOpacity(0.15),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -430,7 +430,7 @@ class _HomePageState extends State<HomePage> {
                     child: Text(
                       'Your current GPA,',
                       style: TextStyle(
-                        color: Color(0xffCBCBCB),
+                        color: Color(0xffecebf2),
                         fontSize: 18,
                       ),
                     ),
@@ -449,7 +449,7 @@ class _HomePageState extends State<HomePage> {
                           return const Text(
                             'Error',
                             style: TextStyle(
-                              color: Color(0xffE1E1E1),
+                              color: Color(0xffecebf2),
                               fontSize: 60,
                             ),
                           );
@@ -457,7 +457,7 @@ class _HomePageState extends State<HomePage> {
                           return Text(
                             snapshot.data!.toStringAsFixed(2),
                             style: const TextStyle(
-                              color: Color(0xffE1E1E1),
+                              color: Color(0xffecebf2),
                               fontSize: 60,
                             ),
                           );
@@ -477,7 +477,7 @@ class _HomePageState extends State<HomePage> {
                           const Text(
                             'Completed Credits :',
                             style: TextStyle(
-                              color: Color(0xffCBCBCB),
+                              color: Color(0xffecebf2),
                               fontSize: 15,
                             ),
                           ),
@@ -490,7 +490,7 @@ class _HomePageState extends State<HomePage> {
                                 return const Text(
                                   'Loading...',
                                   style: TextStyle(
-                                    color: Color(0xffCBCBCB),
+                                    color: Color(0xffecebf2),
                                     fontSize: 15,
                                   ),
                                 );
@@ -498,7 +498,7 @@ class _HomePageState extends State<HomePage> {
                                 return const Text(
                                   'Error',
                                   style: TextStyle(
-                                    color: Color(0xffCBCBCB),
+                                    color: Color(0xffecebf2),
                                     fontSize: 15,
                                   ),
                                 );
@@ -506,7 +506,7 @@ class _HomePageState extends State<HomePage> {
                                 return Text(
                                   snapshot.data!.toString(),
                                   style: const TextStyle(
-                                    color: Color(0xffCBCBCB),
+                                    color: Color(0xffecebf2),
                                     fontSize: 15,
                                   ),
                                 );
@@ -521,7 +521,7 @@ class _HomePageState extends State<HomePage> {
                           const Text(
                             'Completion Percentage :',
                             style: TextStyle(
-                              color: Color(0xffCBCBCB),
+                              color: Color(0xffecebf2),
                               fontSize: 15,
                             ),
                           ),
@@ -534,7 +534,7 @@ class _HomePageState extends State<HomePage> {
                                 return const Text(
                                   'Loading...',
                                   style: TextStyle(
-                                    color: Color(0xffCBCBCB),
+                                    color: Color(0xffecebf2),
                                     fontSize: 15,
                                   ),
                                 );
@@ -542,7 +542,7 @@ class _HomePageState extends State<HomePage> {
                                 return const Text(
                                   'Error',
                                   style: TextStyle(
-                                    color: Color(0xffCBCBCB),
+                                    color: Color(0xffecebf2),
                                     fontSize: 15,
                                   ),
                                 );
@@ -552,7 +552,7 @@ class _HomePageState extends State<HomePage> {
                                 return Text(
                                   '${percentage.toStringAsFixed(2)}%',
                                   style: const TextStyle(
-                                    color: Color(0xffCBCBCB),
+                                    color: Color(0xffecebf2),
                                     fontSize: 15,
                                   ),
                                 );
@@ -577,13 +577,13 @@ class _HomePageState extends State<HomePage> {
       title: const Text(
         'Summary',
         style: TextStyle(
-          color: Color(0xff2b2b2b),
+          color: Color(0xff332e31),
           fontSize: 25,
           fontWeight: FontWeight.w600,
           fontFamily: 'Poppins',
         ),
       ),
-      backgroundColor: const Color(0xffffffff),
+      backgroundColor: const Color(0xffecebf2),
       centerTitle: false,
       elevation: 0,
       actions: [
@@ -597,10 +597,11 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.all(10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: const Color(0xffffffff),
+              color: const Color(0xffecebf2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: IconButton(
+
               icon: SvgPicture.asset(
                 'assets/icons/trnmenu.svg',
                 height: 18,
@@ -628,7 +629,8 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: const Color(0xff2b2b2b),width: 3),
+        color: const Color(0xffffffff),
+        //border: Border.all(color: const Color(0xff332e31),width: 3),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -637,7 +639,7 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               'Add Course',
               style: TextStyle(
-                color: Color(0xff2b2b2b),
+                color: Color(0xff332e31),
                 fontSize: 22,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
@@ -689,14 +691,14 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: WidgetStateProperty.resolveWith<Color>(
                     (Set<WidgetState> states) {
                   if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xff2b2b2b); // Color when pressed
+                    return const Color(0xff693ae0); // Color when pressed
                   }
-                  return const Color(0xff2b2b2b); // Default color
+                  return const Color(0xff8970ce); // Default color
                 },
               ),
-              foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // Text color
+              foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                const EdgeInsets.symmetric(horizontal: 45, vertical: 8),
+                const EdgeInsets.symmetric(horizontal: 133, vertical: 10),
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -707,7 +709,7 @@ class _HomePageState extends State<HomePage> {
             child: const Text(
               'Add',
               style: TextStyle(
-                color: Colors.white,
+                color: Color(0xffecebf2),
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w700,
                 fontSize: 20,
@@ -743,7 +745,7 @@ class _HomePageState extends State<HomePage> {
                   child: const Text(
                     'MyGPA',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Color(0xffecebf2),
                       fontSize: 30,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -756,7 +758,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             title: const Text('Settings',
               style: TextStyle(
-                color: Color(0xff2b2b2b),
+                color: Color(0xff332e31),
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
@@ -772,7 +774,7 @@ class _HomePageState extends State<HomePage> {
           ListTile(
             title: const Text('About App',
               style: TextStyle(
-                color: Color(0xff2b2b2b),
+                color: Color(0xff332e31),
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
@@ -809,8 +811,8 @@ class _HomePageState extends State<HomePage> {
           const Text(
             'Your Courses',
             style: TextStyle(
-              color: Color(0xff2b2b2b),
-              fontSize: 20,
+              color: Color(0xff332e31),
+              fontSize: 22,
               fontWeight: FontWeight.w600,
               fontFamily: 'Poppins',
             ),
@@ -826,10 +828,11 @@ class _HomePageState extends State<HomePage> {
                     // 'Semester ${entry.key}',
                     'Semester $semester',
                     style: const TextStyle(
-                      color: Color(0xff2b2b2b),
-                      fontSize: 18,
+                      color: Color(0xff332e31),
+                      fontSize: 20,
                       fontWeight: FontWeight.w600,
                       fontFamily: 'Poppins',
+
                     ),
                   ),
                 ),
@@ -858,8 +861,9 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
+        color: Color(0xffffffff),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xff2b2b2b),width: 2),
+        //border: Border.all(color: const Color(0xff879cd8),width: 2),
       ),
       child: Stack(
         children: [
@@ -875,7 +879,7 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       '${course.title} ',
                       style: const TextStyle(
-                        color: Color(0xff2b2b2b),
+                        color: Color(0xff332e31),
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
                       ),
@@ -886,7 +890,7 @@ class _HomePageState extends State<HomePage> {
                         const Text(
                           'Credits:',
                           style: TextStyle(
-                            color: Color(0xff2b2b2b),
+                            color: Color(0xff332e31),
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -895,7 +899,7 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           ' ${course.credit}',
                           style: const TextStyle(
-                            color: Color(0xff2b2b2b),
+                            color: Color(0xff4a3794),
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -908,7 +912,7 @@ class _HomePageState extends State<HomePage> {
                         const Text(
                           'Grade:',
                           style: TextStyle(
-                            color: Color(0xff2b2b2b),
+                            color: Color(0xff332e31),
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -917,7 +921,7 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           ' ${course.grade}',
                           style: const TextStyle(
-                            color: Color(0xff2b2b2b),
+                            color: Color(0xff4a3794),
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -940,7 +944,7 @@ class _HomePageState extends State<HomePage> {
                       width: 20,
                     ),
                     iconSize: 20,
-                    color:const Color(0xff2b2b2b),
+                    color:const Color(0xff693ae0),
                     onPressed: ()async {
                      await _updateCourseDialog(context,course);
                         // Handle onPressed event here
@@ -986,11 +990,18 @@ class _HomePageState extends State<HomePage> {
         floatingLabelStyle: _floatingLabelStyle,
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+          color: Color(0xff693ae0),
+          width: 3.0, // Thicker border when not focused
+        ),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          borderSide: BorderSide(color: Color(0xff2b2b2b)),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
+          borderSide: BorderSide(
+          color: Color(0xff693ae0),
+          width: 2.0, // Thinner border when focused
         ),
+      ),
       ),
       items: items.map((String value) {
         return DropdownMenuItem<String>(
@@ -1019,9 +1030,9 @@ class _HomePageState extends State<HomePage> {
                 Text(
                   'Please enter course details for ${course.title}',
                   style: const TextStyle(
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xff2b2b2b),
+                    color: Color(0xff332e31),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -1070,21 +1081,21 @@ class _HomePageState extends State<HomePage> {
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
                   if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xffE1E1E1);
+                    return const Color(0xffecebf2);
                   }
-                  return Colors.white;
+                  return Color(0xffecebf2);
                 }),
                 foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  return Colors.white;
+                  return Color(0xffecebf2);
                 }),
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: const BorderSide(
-                      color: Color(0xff2b2b2b),
+                      color: Color(0xff8970ce),
                       width: 3,
                     ),
                   ),
@@ -1099,31 +1110,27 @@ class _HomePageState extends State<HomePage> {
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
                   fontSize: 18,
-                  color: Color(0xff2b2b2b),
+                  color: Color(0xff8970ce),
                 ),
               ),
             ),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xff34312D);
-                  }
-                  return const Color(0xff2b2b2b);
-                }),
-                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  return Colors.white;
-                }),
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return const Color(0xff693ae0); // Color when pressed
+                    }
+                    return const Color(0xff8970ce); // Default color
+                  },
+                ),
+                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Color(0xff2b2b2b),
-                      width: 3,
-                    ),
                   ),
                 ),
               ),
@@ -1144,7 +1151,7 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -1165,6 +1172,17 @@ class _HomePageState extends State<HomePage> {
       value: selectedItem,
       decoration: InputDecoration(
         labelText: label,
+        labelStyle: const TextStyle(
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w600,
+            color: Color(0xff332e31)
+        ),
+        floatingLabelStyle: const TextStyle(
+          color: Color(0xff332e31), // Set label color when focused
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w600,
+          fontSize: 23,
+        ),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
         ),
@@ -1192,9 +1210,9 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 Text('Are you sure to delete ${course.title}?',
                   style: const TextStyle(
-                    fontSize: 15,
+                    fontSize: 18,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xff2b2b2b)
+                    color: Color(0xff332e31)
                   ),
                 ),
               ],
@@ -1203,25 +1221,21 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(WidgetState.pressed)) {
-                    return const Color(0xff34312D); // Color when pressed
-                  }
-                  return const Color(0xff34312D); // Default background color
-                }),
-                foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  return Colors.white; // Text color
-                }),
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
+                      return const Color(0xff693ae0); // Color when pressed
+                    }
+                    return const Color(0xff8970ce); // Default color
+                  },
+                ),
+                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
-                    side: const BorderSide(
-                      color: Color(0xff2b2b2b),
-                      width: 3,
-                    ),
                   ),
                 ),
               ),
@@ -1246,10 +1260,10 @@ class _HomePageState extends State<HomePage> {
                   return Colors.red; // Default background color
                 }),
                 foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  return Colors.white; // Text color
+                  return const Color(0xfffcffff); // Text color
                 }),
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 7),
+                  const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
@@ -1275,7 +1289,7 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w700,
-                  fontSize: 15,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -1289,7 +1303,7 @@ class _HomePageState extends State<HomePage> {
       TextEditingController controllerName) {
     return TextField(
 
-      cursorColor: const Color(0xff2b2b2b),
+      cursorColor: const Color(0xff693ae0),
       controller: controllerName,
       decoration: InputDecoration(
         labelText: label,
@@ -1298,15 +1312,20 @@ class _HomePageState extends State<HomePage> {
         labelStyle: _labelTextStyle,
         floatingLabelStyle: _floatingLabelStyle,
         border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-              Radius.circular(10.0)), // Set border radius here
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+          color: Color(0xff693ae0),
+          width: 3.0, // Thicker border when not focused
+        ),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          // Set border radius here
-          borderSide: BorderSide(color: Color(0xff2b2b2b)),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
+          borderSide: BorderSide(
+          color: Color(0xff693ae0),
+          width: 2.0, // Thinner border when focused
         ),
       ),
+    )
     );
   }
 
@@ -1314,22 +1333,27 @@ class _HomePageState extends State<HomePage> {
       TextEditingController controllerName) {
     return TextField(
       keyboardType: TextInputType.number,
-      cursorColor: const Color(0xff2b2b2b),
+      cursorColor: const Color(0xff693ae0),
       controller: controllerName,
       decoration: InputDecoration(
         labelText: label,
-        fillColor: const Color(0xffE1E1E1),
+        fillColor: const Color(0xfffcffff),
         hintText: hint,
         labelStyle: _labelTextStyle,
         floatingLabelStyle: _floatingLabelStyle,
         border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-              Radius.circular(10.0)), // Set border radius here
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+            color: Color(0xff693ae0),
+            width: 3.0, // Thicker border when not focused
+          ),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          // Set border radius here
-          borderSide: BorderSide(color: Color(0xff2b2b2b)),
+          borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
+          borderSide: BorderSide(
+            color: Color(0xff693ae0),
+            width: 2.0, // Thinner border when focused
+          ),
         ),
       ),
     );
@@ -1337,20 +1361,20 @@ class _HomePageState extends State<HomePage> {
 
 
   static const TextStyle _labelTextStyle = TextStyle(
-    color: Color(0xff2b2b2b),
-    fontFamily: 'Poppins',
-    fontWeight: FontWeight.w600,
-    fontSize: 15,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.w600,
+      color: Color(0xff332e31)
   );
 
   static const TextStyle _floatingLabelStyle = TextStyle(
-    color: Color(0xff2b2b2b), // Set label color when focused
+    color: Color(0xff332e31), // Set label color when focused
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w600,
+    fontSize: 23,
   );
 
   static const TextStyle _buttonTextStyle = TextStyle(
-    color: Colors.white,
+    color: Color(0xffecebf2),
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w700,
     fontSize: 16,

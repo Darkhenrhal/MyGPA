@@ -107,59 +107,77 @@ class _SetupPageState extends State<SetupPage> {
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 30,
-                    color: Color(0xff2b2b2b),
+                    color: Color(0xff332e31),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 30),
                 TextField(
+                  keyboardType: TextInputType.number,
                   controller: _semestersController,
-                  cursorColor: const Color(0xff2b2b2b),
+                  cursorColor: const Color(0xff332e31),
                   decoration: const InputDecoration(
                     labelText: 'Semesters Count',
                     hintText: 'Enter total semester count',
                     labelStyle: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff332e31)
                     ),
                     floatingLabelStyle: TextStyle(
-                      color: Color(0xff2b2b2b), // Set label color when focused
+                      color: Color(0xff332e31), // Set label color when focused
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
+                      fontSize: 23,
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(
+                        color: Color(0xff693ae0),
+                        width: 3.0, // Thicker border when not focused
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
-                      borderSide: BorderSide(color: Color(0xff2b2b2b)),
+                      borderSide: BorderSide(
+                        color: Color(0xff693ae0),
+                        width: 2.0, // Thinner border when focused
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  keyboardType: TextInputType.number,
                   controller: _courseCreditsController,
-                  cursorColor: const Color(0xff2b2b2b),
+                  cursorColor: const Color(0xff332e31),
                   decoration: const InputDecoration(
                     labelText: 'Course Credits',
                     hintText: 'Enter total course credits',
                     labelStyle: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff332e31)
                     ),
                     floatingLabelStyle: TextStyle(
-                      color: Color(0xff2b2b2b), // Set label color when focused
+                      color: Color(0xff332e31), // Set label color when focused
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
+                      fontSize: 23,
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      borderSide: BorderSide(
+                        color: Color(0xff693ae0),
+                        width: 3.0, // Thicker border when not focused
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)), // Set border radius here
-                      borderSide: BorderSide(color: Color(0xff2b2b2b)),
+                      borderSide: BorderSide(
+                        color: Color(0xff693ae0),
+                        width: 2.0, // Thinner border when focused
+                      ),
                     ),
                   ),
                 ),
@@ -173,14 +191,14 @@ class _SetupPageState extends State<SetupPage> {
                     backgroundColor: WidgetStateProperty.resolveWith<Color>(
                           (Set<WidgetState> states) {
                         if (states.contains(WidgetState.pressed)) {
-                          return const Color(0xff2b2b2b); // Color when pressed
+                          return const Color(0xff693ae0); // Color when pressed
                         }
-                        return const Color(0xff2b2b2b); // Default color
+                        return const Color(0xff8970ce); // Default color
                       },
                     ),
                     foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // Text color
                     padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(horizontal: 45, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 126, vertical: 10),
                     ),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

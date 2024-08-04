@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
         //theme: ThemeData(),
         //home: HomePage(),
         //home: SetupPage(),
-        home: RegisterPage(),
-        //home: const SplashScreen(),
+        //home: RegisterPage(),
+        home: const SplashScreen(),
         //home: const DonePage(),
         //home: const AboutApp(),
 

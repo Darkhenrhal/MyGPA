@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ],
       ),
       nextScreen:  RegisterPage(),
-      duration: 25000,
+      duration: 2500,
       backgroundColor: const Color(0xfffcffff),
       splashIconSize: 200,
     );

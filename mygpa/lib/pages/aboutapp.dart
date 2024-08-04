@@ -33,13 +33,13 @@ class _AboutAppState extends State<AboutApp> {
       title: const Text(
         'My GPA',
         style: TextStyle(
-          color: Color(0xff2b2b2b),
+          color: Color(0xff332e31),
           fontSize: 30,
           fontWeight: FontWeight.w600,
           fontFamily: 'Poppins',
         ),
       ),
-      backgroundColor: const Color(0xffffffff),
+      backgroundColor: const Color(0xffecebf2),
       centerTitle: false,
       elevation: 0,
       actions: [
@@ -54,7 +54,7 @@ class _AboutAppState extends State<AboutApp> {
             margin: const EdgeInsets.all(10),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: const Color(0xffffffff),
+              color: const Color(0xffecebf2),
               borderRadius: BorderRadius.circular(10),
             ),
 
@@ -73,7 +73,7 @@ class _AboutAppState extends State<AboutApp> {
             'Welcome to My GPA, ',
             textAlign: TextAlign.justify,
             style: TextStyle(
-              color: Color(0xff2b2b2b),
+              color: Color(0xff693ae0),
               fontSize: 18,
               fontWeight: FontWeight.w600,
               fontFamily: 'Poppins',
@@ -94,13 +94,13 @@ class _AboutAppState extends State<AboutApp> {
               fontFamily: 'Poppins',
             ),
           ),
-          const SizedBox(height: 5,),
+          const SizedBox(height: 8,),
           const Text(
             'Best Regards,\n'
                 'Team MyGPA',
-            textAlign: TextAlign.justify,
+            textAlign: TextAlign.left,
             style: TextStyle(
-              color: Color(0xff2b2b2b),
+              color: Color(0xff693ae0),
               fontSize: 18,
               fontWeight: FontWeight.w600,
               fontFamily: 'Poppins',
@@ -108,7 +108,7 @@ class _AboutAppState extends State<AboutApp> {
           ),
           const SizedBox(height: 20), // Add some spacing before the SVG
           SvgPicture.asset(
-            'assets/images/about.svg',
+            'assets/images/about.gif',
             height: 250,
             width: 250,
           ),
