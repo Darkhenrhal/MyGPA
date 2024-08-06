@@ -472,7 +472,7 @@ class RegisterPage extends StatelessWidget {
                     return const Color(0xff8970ce); // Default color
                   },
                 ),
-                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff)), // Text color
+                foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff)), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 133, vertical: 10),
                 ),

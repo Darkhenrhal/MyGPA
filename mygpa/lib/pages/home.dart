@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
 
     if (courseGrade == null) {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-        const SnackBar(content: Text('Please select a grade.')),
+        const SnackBar(content: Text('Please select a grade.',textAlign: TextAlign.center,)),
       );
       return;
     }
@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
     // Validate input
     if (courseTitle.isEmpty || courseGrade.isEmpty || courseCredit <= 0 || courseSemester <= 0) {
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-        const SnackBar(content: Text('Please fill all fields correctly.')),
+        const SnackBar(content: Text('Please fill all fields correctly.',textAlign: TextAlign.center,)),
       );
       return;
     }
@@ -160,19 +160,19 @@ class _HomePageState extends State<HomePage> {
         _updateUserDetails();
 
         ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-          const SnackBar(content: Text('Course added successfully.')),
+          const SnackBar(content: Text('Course added successfully.',textAlign: TextAlign.center,)),
         );
         // Clear text fields after adding the course
         clear();
       } else {
         ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-          const SnackBar(content: Text('Failed to add course. Please try again.')),
+          const SnackBar(content: Text('Failed to add course. Please try again.',textAlign: TextAlign.center,)),
         );
       }
     } catch (exception) {
       print('Error inserting course: $exception');
       ScaffoldMessenger.of(_scaffoldKey.currentContext!).showSnackBar(
-        const SnackBar(content: Text('An error occurred. Please try again later.')),
+        const SnackBar(content: Text('An error occurred. Please try again later.',textAlign: TextAlign.center,)),
       );
     }
 
@@ -367,10 +367,10 @@ class _HomePageState extends State<HomePage> {
           if (states.contains(WidgetState.pressed)) {
             return const Color(0xff8970ce); // Color when pressed
           }
-          return isSelected ? const Color(0xff8970ce) : Color(0xffecebf2); // Selected and default colors
+          return isSelected ? const Color(0xff8970ce) : const Color(0xffecebf2); // Selected and default colors
         }),
         foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-          return isSelected ? Color(0xffecebf2) : const Color(
+          return isSelected ? const Color(0xffecebf2) : const Color(
               0xff8970ce); // Text color based on selection
         }),
         padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
@@ -696,7 +696,7 @@ class _HomePageState extends State<HomePage> {
                   return const Color(0xff8970ce); // Default color
                 },
               ),
-              foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+              foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 const EdgeInsets.symmetric(horizontal: 133, vertical: 10),
               ),
@@ -802,6 +802,7 @@ class _HomePageState extends State<HomePage> {
       groupedCourses[course.semester]!.add(course);
     }
 
+
     List<int> sortedSemesters = groupedCourses.keys.toList()..sort();
 
     return Container(
@@ -861,7 +862,7 @@ class _HomePageState extends State<HomePage> {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Color(0xffffffff),
+        color: const Color(0xffffffff),
         borderRadius: BorderRadius.circular(10),
         //border: Border.all(color: const Color(0xff879cd8),width: 2),
       ),
@@ -1083,10 +1084,10 @@ class _HomePageState extends State<HomePage> {
                   if (states.contains(WidgetState.pressed)) {
                     return const Color(0xffecebf2);
                   }
-                  return Color(0xffecebf2);
+                  return const Color(0xffecebf2);
                 }),
                 foregroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                  return Color(0xffecebf2);
+                  return const Color(0xffecebf2);
                 }),
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -1124,7 +1125,7 @@ class _HomePageState extends State<HomePage> {
                     return const Color(0xff8970ce); // Default color
                   },
                 ),
-                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+                foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
@@ -1229,7 +1230,7 @@ class _HomePageState extends State<HomePage> {
                     return const Color(0xff8970ce); // Default color
                   },
                 ),
-                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+                foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),

@@ -23,7 +23,7 @@ class _DonePageState extends State<DonePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Lottie.asset('assets/animation/Done.json', height: 300, width: 300),
+            child: Lottie.asset('assets/animation/doneanimation.json', height: 300, width: 300),
           ),
         ],
       ),

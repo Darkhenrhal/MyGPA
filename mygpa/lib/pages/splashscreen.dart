@@ -10,7 +10,9 @@ class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _SplashScreenState createState() {
+    return _SplashScreenState();
+  }
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -18,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState(){
     super.initState();
 
-    //_checkUserRegistered();
+    _checkUserRegistered();
   }
 
   Future<void> _checkUserRegistered()async{

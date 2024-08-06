@@ -393,7 +393,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   return const Color(0xff8970ce); // Default color
                 },
               ),
-              foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+              foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 const EdgeInsets.symmetric(horizontal: 109, vertical: 10),
               ),
@@ -448,7 +448,7 @@ class _SettingsPageState extends State<SettingsPage> {
       decoration: BoxDecoration(
         //border: Border.all(color: const Color(0xff2b2b2b), width: 3),
         borderRadius: BorderRadius.circular(10),
-        color: Color(0xffffffff)
+        color: const Color(0xffffffff)
       ),
       child: Column(
         children: [
@@ -473,7 +473,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ],
           ),
-          SizedBox(height: 6,),
+          const SizedBox(height: 6,),
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.resolveWith<Color>(
@@ -484,7 +484,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   return const Color(0xff8970ce); // Default color
                 },
               ),
-              foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+              foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               ),
@@ -581,7 +581,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     return const Color(0xff8970ce); // Default color
                   },
                 ),
-                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+                foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
@@ -891,7 +891,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     return const Color(0xff8970ce); // Default color
                   },
                 ),
-                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+                foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
@@ -956,7 +956,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   return const Color(0xff8970ce); // Default color
                 },
               ),
-              foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+              foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                 const EdgeInsets.symmetric(horizontal: 68, vertical: 10),
               ),
@@ -1052,7 +1052,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     return const Color(0xff8970ce); // Default color
                   },
                 ),
-                foregroundColor: WidgetStateProperty.all<Color>(Color(0xfffcffff),), // Text color
+                foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
