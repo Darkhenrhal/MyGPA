@@ -110,6 +110,12 @@ class _AboutAppState extends State<AboutApp> {
               fontFamily: 'Poppins',
             ),
           ),
+          const SizedBox(height: 20), // Add some spacing before the SVG
+          Image.asset(
+            'assets/images/about.gif',
+            height: 250,
+            width: 250,
+          ),
           const SizedBox(height: 15,),
           const Text(
                 'Team MyGPA',
@@ -121,12 +127,7 @@ class _AboutAppState extends State<AboutApp> {
               fontFamily: 'Poppins',
             ),
           ),
-          const SizedBox(height: 20), // Add some spacing before the SVG
-          SvgPicture.asset(
-            'assets/images/about.gif',
-            height: 250,
-            width: 250,
-          ),
+
         ],
       ),
     );
