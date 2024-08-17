@@ -57,8 +57,6 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-
-
   @override
   void clear() {
     courseTitleController.clear();
@@ -330,7 +328,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildHomeButtons(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.all(2),
       child: ButtonBar(
         alignment: MainAxisAlignment.center,
         buttonPadding: const EdgeInsets.symmetric(horizontal: 10),
@@ -374,7 +372,7 @@ class _HomePageState extends State<HomePage> {
               0xff8970ce); // Text color based on selection
         }),
         padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-          const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+          const EdgeInsets.symmetric(horizontal: 23, vertical: 10),
         ),
         shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -640,7 +638,7 @@ class _HomePageState extends State<HomePage> {
               'Add Course',
               style: TextStyle(
                 color: Color(0xff332e31),
-                fontSize: 22,
+                fontSize: 24,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Poppins',
               ),
@@ -680,7 +678,7 @@ class _HomePageState extends State<HomePage> {
             selectedItem: selectedGrade,
             onChanged: onGradeChanged,
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 30),
 
           ElevatedButton(
 
@@ -698,7 +696,7 @@ class _HomePageState extends State<HomePage> {
               ),
               foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                const EdgeInsets.symmetric(horizontal: 133, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -716,6 +714,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          const SizedBox(height: 30),
 
         ],
       ),
@@ -724,6 +723,7 @@ class _HomePageState extends State<HomePage> {
 
   Drawer _buildDrawer() {
     return Drawer(
+      backgroundColor: Color(0xfffcffff),
       child: ListView(
 
         padding: EdgeInsets.zero,
@@ -792,6 +792,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCourseList(
+
       BuildContext context,
       ) {
     Map<int, List<Course>> groupedCourses = {};
@@ -804,16 +805,21 @@ class _HomePageState extends State<HomePage> {
 
 
     List<int> sortedSemesters = groupedCourses.keys.toList()..sort();
-
+    String title="";
+    if(groupedCourses.isNotEmpty){
+      title="Your Courses";
+    }else{
+      title="No Courses to show";
+    }
     return Container(
       padding: const EdgeInsets.only(left:10,right: 10,top: 0,bottom: 0),
       child: Column(
         children: <Widget>[
-          const Text(
-            'Your Courses',
-            style: TextStyle(
+           Text(
+            title,
+            style: const TextStyle(
               color: Color(0xff332e31),
-              fontSize: 22,
+              fontSize: 24,
               fontWeight: FontWeight.w600,
               fontFamily: 'Poppins',
             ),
@@ -823,6 +829,7 @@ class _HomePageState extends State<HomePage> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                const SizedBox(height: 15,),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -837,6 +844,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10,),
                 // ...entry.value.map((course) => _buildCourseCard(
                 //   context,
                 //   course,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AboutApp extends StatefulWidget {
   const AboutApp({super.key});
@@ -24,6 +24,7 @@ class _AboutAppState extends State<AboutApp> {
           ),
         ),
       ),
+      backgroundColor: const Color(0xfffcffff),
     );
   }
 
@@ -71,11 +72,11 @@ class _AboutAppState extends State<AboutApp> {
       child: Column(
         children: <Widget>[
           const Text(
-            'Welcome to My GPA, ',
+            'Welcome to MyGPA, ',
             textAlign: TextAlign.left,
             style: TextStyle(
               color: Color(0xff693ae0),
-              fontSize: 18,
+              fontSize: 25,
               fontWeight: FontWeight.w600,
               fontFamily: 'Poppins',
             ),
@@ -91,7 +92,7 @@ class _AboutAppState extends State<AboutApp> {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff2b2b2b),
-              fontSize: 14,
+              fontSize: 16,
               fontWeight: FontWeight.w600,
               fontFamily: 'Poppins',
             ),
@@ -100,8 +101,8 @@ class _AboutAppState extends State<AboutApp> {
 
 
           const Text(
-            'Keep working, Dont give up, \n'
-                'You can Win!!!',
+            'Keep working, Don\'t give up, \n'
+                'You can Win !!!',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(0xff693ae0),
@@ -111,18 +112,28 @@ class _AboutAppState extends State<AboutApp> {
             ),
           ),
           const SizedBox(height: 20), // Add some spacing before the SVG
-          Image.asset(
-            'assets/images/about.gif',
-            height: 250,
-            width: 250,
+          SvgPicture.asset(
+            'assets/images/about.svg',
+            height: 300,
+            width: 300,
           ),
           const SizedBox(height: 15,),
           const Text(
-                'Team MyGPA',
+            'Powered By,',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              color: Color(0xff8970ce),
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          const Text(
+                'Darkhenrhal',
             textAlign: TextAlign.left,
             style: TextStyle(
               color: Color(0xff693ae0),
-              fontSize: 20,
+              fontSize: 24,
               fontWeight: FontWeight.w600,
               fontFamily: 'Poppins',
             ),

@@ -192,7 +192,9 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Drawer _buildDrawer() {
+
     return Drawer(
+      backgroundColor: Color(0xfffcffff),
       child: ListView(
 
         padding: EdgeInsets.zero,
@@ -267,11 +269,12 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildSettingsPage() {
     return Column(
       children: <Widget>[
+        const SizedBox(height: 50),
         SvgPicture.asset(
           //'assets/images/settings.gif',
           'assets/images/settings.svg',
-          height: 250,
-          width: 250,
+          height: 275,
+          width: 275,
           key: UniqueKey(),
         ),
         // GifView.asset(
@@ -281,6 +284,7 @@ class _SettingsPageState extends State<SettingsPage> {
         //   key: UniqueKey(),
         // ),
         //Lottie.asset('assets/animation/loadanimation.json',height: 150,width: 150),
+        const SizedBox(height: 30),
         Container(
           margin: const EdgeInsets.only(left: 5, right: 20, top: 20),
           child: Column(
@@ -309,7 +313,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ListTile(
                 title: const Text(
-                  'Choose Grading Method',
+                  'Change Grading Method',
                   style: TextStyle(
                     color: Color(0xff332e31),
                     fontSize: 20,
@@ -374,15 +378,15 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       child: Column(
         children: <Widget>[
-          const SizedBox(height: 6),
+          const SizedBox(height: 17),
           _buildTextField('Name', 'Enter Name', userNameController),
-          const SizedBox(height: 15),
+          const SizedBox(height: 17),
           _buildTextField('Email', 'Enter Email', userEmailController),
-          const SizedBox(height: 15),
+          const SizedBox(height: 17),
           _buildNumberField('Total Semesters', 'Enter Total Semesters', userTotalSemesterController),
-          const SizedBox(height: 15),
+          const SizedBox(height: 17),
           _buildNumberField('Total Credits', 'Enter Total Credits', userTotalCreditController),
-          const SizedBox(height: 10),
+          const SizedBox(height: 17),
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.resolveWith<Color>(
@@ -416,6 +420,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
+          const SizedBox(height: 14),
+
         ],
       ),
     );
@@ -452,6 +458,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       child: Column(
         children: [
+          const SizedBox(height: 5),
           Row(
             children: [
               const Text(
@@ -473,7 +480,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ],
           ),
-          const SizedBox(height: 6,),
+          const SizedBox(height: 15,),
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.resolveWith<Color>(
@@ -486,7 +493,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff),), // Text color
               padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               ),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -508,6 +515,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
+          const SizedBox(height: 15,),
+
         ],
       ),
     );
@@ -945,7 +954,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: <Widget>[
           for (var entry in _courseWeightMap!.entries)
             _buildTextFieldGrade(entry.key, 'Weight for ${entry.key}', entry.value.toString()),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.resolveWith<Color>(
@@ -979,6 +988,8 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
+          const SizedBox(height: 15),
+
         ],
       ),
     );

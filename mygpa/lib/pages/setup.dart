@@ -87,10 +87,11 @@ class _SetupPageState extends State<SetupPage> {
           Center(
             child: Column(
               children: <Widget>[
+                const SizedBox(height: 50),
                 Image.asset(
                   'assets/images/setup.gif',
-                  height: 225,
-                  width: 225,
+                  height: 300,
+                  width: 300,
                 ),
                 const Text(
                   'Set up your',
@@ -196,9 +197,9 @@ class _SetupPageState extends State<SetupPage> {
                         return const Color(0xff8970ce); // Default color
                       },
                     ),
-                    foregroundColor: WidgetStateProperty.all<Color>(Colors.white), // Text color
+                    foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff)), // Text color
                     padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                      const EdgeInsets.symmetric(horizontal: 126, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
                     ),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(

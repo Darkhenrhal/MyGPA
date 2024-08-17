@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mygpa/pages/splashscreen.dart';
-
 void main() {
   runApp(const MyApp());
 }

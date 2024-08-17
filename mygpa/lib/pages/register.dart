@@ -361,12 +361,13 @@ class RegisterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            const SizedBox(height: 50),
             Image.asset(
               'assets/images/register.gif',
-              height: 250,
-              width: 250,
+              height: 300,
+              width: 300,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             const Text(
               'Let\'s get in...',
               style: TextStyle(
@@ -474,7 +475,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 foregroundColor: WidgetStateProperty.all<Color>(const Color(0xfffcffff)), // Text color
                 padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                  const EdgeInsets.symmetric(horizontal: 133, vertical: 10),
+                  const EdgeInsets.symmetric(horizontal: 80, vertical: 10),
                 ),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
